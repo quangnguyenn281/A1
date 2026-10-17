@@ -39,18 +39,20 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
         }
 
-        .glass-gold-card {
-            background: linear-gradient(135deg, rgba(255, 223, 137, 0.15) 0%, rgba(255, 182, 193, 0.1) 100%);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 215, 0, 0.4);
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.2);
+        /* === TỐI ƯU RESPONSIVE CHO BAO THƯ TRÊN MỌI THIẾT BỊ === */
+        .envelope-container { 
+            perspective: 1200px; 
+            width: 100%; 
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 0 16px;
+            container-type: inline-size; 
         }
 
-        .envelope-container { perspective: 1200px; }
         .envelope-box {
             position: relative;
-            width: 320px;
-            height: 220px;
+            width: 100%;
+            aspect-ratio: 480 / 310;
             background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%);
             border-bottom-left-radius: 16px;
             border-bottom-right-radius: 16px;
@@ -59,49 +61,42 @@
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        @media (min-width: 640px) {
-            .envelope-box { width: 480px; height: 310px; }
-        }
-
-        .envelope-box:hover { transform: translateY(-8px) scale(1.02); }
+        .envelope-box:hover { transform: translateY(-6px) scale(1.01); }
 
         .envelope-box .flap {
             position: absolute; top: 0; left: 0; width: 0; height: 0;
-            border-left: 160px solid transparent; border-right: 160px solid transparent;
-            border-top: 130px solid #f43f5e; transform-origin: top;
+            border-left: 50cqw solid transparent; 
+            border-right: 50cqw solid transparent;
+            border-top: 35cqw solid #f43f5e; 
+            transform-origin: top;
             transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.3s, z-index 0.2s ease 0.3s;
             z-index: 4; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
         }
 
-        @media (min-width: 640px) {
-            .envelope-box .flap { border-left-width: 240px; border-right-width: 240px; border-top-width: 170px; }
-        }
-
         .envelope-box .pocket {
             position: absolute; bottom: 0; left: 0; width: 0; height: 0;
-            border-left: 160px solid #fb7185; border-right: 160px solid #fb7185;
-            border-bottom: 125px solid #e11d48; border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;
+            border-left: 50cqw solid #fb7185; 
+            border-right: 50cqw solid #fb7185;
+            border-bottom: 35cqw solid #e11d48; 
+            border-bottom-left-radius: 16px; 
+            border-bottom-right-radius: 16px;
             z-index: 3;
-        }
-
-        @media (min-width: 640px) {
-            .envelope-box .pocket { border-left-width: 240px; border-right-width: 240px; border-bottom-width: 170px; }
         }
 
         .envelope-box .inner-card {
             position: absolute; bottom: 12px; left: 4%; width: 92%; height: 92%;
             background: linear-gradient(135deg, #ffffff 0%, #fff1f2 100%); color: #881337;
             border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.25);
-            transition: transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 2; padding: 1.25rem;
+            transition: transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 2; 
+            padding: 4% 6%;
             display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
             border: 2px dashed #f43f5e;
         }
 
         .envelope-box.open .flap { transform: rotateX(180deg); z-index: 1; }
-        .envelope-box.open .inner-card { transform: translateY(-170px) scale(1.05); z-index: 5; }
-
-        @media (min-width: 640px) {
-            .envelope-box.open .inner-card { transform: translateY(-230px) scale(1.06); }
+        .envelope-box.open .inner-card { 
+            transform: translateY(-50cqw) scale(1.03); 
+            z-index: 5; 
         }
 
         .text-glow-gold { text-shadow: 0 0 10px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.4); }
@@ -112,7 +107,7 @@
         }
         .badge-glow { animation: pulseGlow 3s infinite; }
 
-        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: rgba(43, 8, 26, 0.8); }
         ::-webkit-scrollbar-thumb { background: #f43f5e; border-radius: 4px; }
     </style>
@@ -126,7 +121,7 @@
                 <i class="fa-solid fa-lock text-white text-2xl"></i>
             </div>
             <h2 class="font-serif-title text-2xl font-bold text-amber-200 mb-2">Góc Lưu Bút 9A1</h2>
-            <p class="text-xs sm:text-sm text-rose-200/80 mb-6">Vui lòng nhập mật khẩu do lớp cung cấp để mở thiệp tri ân Cô Mỹ Thắm nhé!</p>
+            <p class="text-xs sm:text-sm text-rose-200/80 mb-6">Mật khẩu: <code class="bg-black/30 px-2 py-1 rounded text-amber-300">9a1</code></p>
             
             <form onsubmit="checkPassword(event)" class="space-y-4">
                 <input type="password" id="site-password" required placeholder="Nhập mật khẩu..." class="w-full bg-white/10 border border-rose-300/30 rounded-xl px-4 py-3 text-sm text-white placeholder-rose-200/50 focus:outline-none focus:border-rose-400 text-center tracking-widest">
@@ -190,19 +185,19 @@
             </div>
 
             <!-- Bao thư 3D -->
-            <div class="envelope-container my-8 sm:my-12 flex justify-center w-full">
+            <div class="envelope-container my-8 sm:my-12">
                 <div id="envelope" class="envelope-box" onclick="toggleEnvelope()">
                     <div class="flap"></div>
                     <div class="inner-card">
-                        <div class="flex items-center justify-center gap-1 text-rose-500 text-xs font-semibold uppercase tracking-widest mb-1">
+                        <div class="flex items-center justify-center gap-1 text-rose-500 text-[11px] sm:text-xs font-semibold uppercase tracking-widest mb-1">
                             <i class="fa-solid fa-crown text-amber-500"></i> Lớp 9A1 Kính Tặng <i class="fa-solid fa-crown text-amber-500"></i>
                         </div>
-                        <h2 class="font-serif-title font-bold text-xl sm:text-2xl text-rose-900 mb-1">
+                        <h2 class="font-serif-title font-bold text-base sm:text-xl text-rose-900 mb-1">
                             Cô Mỹ Thắm Kính Yêu!
                         </h2>
-                        <p id="typewriter-text" class="font-handwriting text-base sm:text-xl text-rose-950 leading-relaxed min-h-[70px] flex items-center justify-center px-2">
+                        <p id="typewriter-text" class="font-handwriting text-xs sm:text-lg text-rose-950 leading-relaxed min-h-[50px] flex items-center justify-center px-1">
                         </p>
-                        <div class="mt-2 flex items-center gap-2 text-xs text-rose-600 font-bold bg-rose-100/80 px-3 py-1 rounded-full border border-rose-300">
+                        <div class="mt-2 flex items-center gap-2 text-[10px] sm:text-xs text-rose-600 font-bold bg-rose-100/80 px-3 py-1 rounded-full border border-rose-300">
                             <i class="fa-solid fa-heart text-rose-500"></i> 20 / 10 / 2026 - Mãi Yêu Cô!
                         </div>
                     </div>
@@ -221,15 +216,15 @@
                 </button>
             </div>
 
-            <!-- Tường Lưu Bút Realtime -->
-            <section class="w-full glass-card rounded-3xl p-6 sm:p-8 mb-12">
+            <!-- Tường Lưu Bút -->
+            <section class="w-full glass-card rounded-3xl p-4 sm:p-8 mb-12">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-rose-300/20">
                     <div>
                         <h3 class="font-serif-title text-xl sm:text-2xl font-bold text-amber-200 flex items-center gap-2">
                             <i class="fa-solid fa-comments text-rose-400"></i>
                             Góc Lưu Bút 9A1 Tặng Cô Mỹ Thắm
                         </h3>
-                        <p class="text-xs text-rose-200/80">Đồng bộ trực tuyến thời gian thực (Realtime)</p>
+                        <p class="text-xs text-rose-200/80">Gửi lời chúc yêu thương đến Cô</p>
                     </div>
                     <button onclick="burstHearts()" class="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-lg transition flex items-center gap-2">
                         <i class="fa-solid fa-heart text-amber-300"></i> Bắn Ngàn Trái Tim
@@ -251,7 +246,7 @@
 
                 <!-- Lưới hiển thị Lưu Bút -->
                 <div id="wish-wall" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Được đồng bộ trực tiếp từ Firebase -->
+                    <!-- Nội dung lời chúc -->
                 </div>
             </section>
 
@@ -259,7 +254,7 @@
 
         <!-- Footer -->
         <footer class="relative z-10 w-full text-center py-6 text-rose-200/70 text-xs sm:text-sm border-t border-rose-300/20 bg-black/30 backdrop-blur-md mt-auto">
-            <p class="flex items-center justify-center gap-2">
+            <p class="flex items-center justify-center gap-2 flex-wrap px-4">
                 <span>Kính chúc Cô Mỹ Thắm ngày 20/10 ngập tràn niềm vui</span>
                 <i class="fa-solid fa-heart text-rose-500"></i>
                 <span>Tập thể Lớp 9A1 Kính Tặng</span>
@@ -267,9 +262,9 @@
         </footer>
     </div>
 
-    <!-- SCRIPT TÍCH HỢP FIREBASE & XỬ LÝ GIAO DIỆN -->
+    <!-- SCRIPT XỬ LÝ TOÀN BỘ -->
     <script>
-        // --- ⚙️ CẤU HÌNH FIREBASE CỦA BẠN (Dán cấu hình từ Firebase Console vào đây) ---
+        // --- CẤU HÌNH FIREBASE (Dán key của bạn vào đây nếu muốn đồng bộ online nhiều máy) ---
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
             authDomain: "YOUR_AUTH_DOMAIN",
@@ -280,10 +275,18 @@
             appId: "YOUR_APP_ID"
         };
 
-        // Khởi tạo Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-        const wishesRef = db.ref('wishes_9A1');
+        let db = null;
+        let useFirebase = false;
+
+        try {
+            if (firebaseConfig.apiKey && !firebaseConfig.apiKey.includes("YOUR_")) {
+                firebase.initializeApp(firebaseConfig);
+                db = firebase.database();
+                useFirebase = true;
+            }
+        } catch (e) {
+            console.log("Dùng LocalStorage dự phòng trên thiết bị.");
+        }
 
         // --- 1. MẬT KHẨU ---
         function checkPassword(e) {
@@ -297,6 +300,7 @@
                 mainContent.classList.remove('hidden');
                 mainContent.classList.add('flex');
                 initParticles();
+                loadWishes();
             } else {
                 const errorMsg = document.getElementById('error-msg');
                 errorMsg.classList.remove('hidden');
@@ -370,7 +374,7 @@
                 height = canvas.height = window.innerHeight;
             });
             particles = [];
-            for (let i = 0; i < 45; i++) {
+            for (let i = 0; i < 40; i++) {
                 const p = new Particle();
                 p.y = Math.random() * height;
                 particles.push(p);
@@ -386,7 +390,7 @@
         }
 
         // --- 3. AUDIO & FIREWORKS ---
-        let audioCtx = null, isPlaying = false, timerId = null;
+        let audioCtx = null, isPlaying = false;
         function toggleAudio() {
             const btnText = document.getElementById('audio-text');
             const btnIcon = document.getElementById('audio-icon');
@@ -404,8 +408,8 @@
         }
 
         function triggerFireworks() {
-            confetti({ particleCount: 80, spread: 70, origin: { y: 0.6, x: 0.2 }, colors: ['#f43f5e', '#fbbf24', '#ffffff'] });
-            confetti({ particleCount: 80, spread: 70, origin: { y: 0.6, x: 0.8 }, colors: ['#f43f5e', '#fbbf24', '#ffffff'] });
+            confetti({ particleCount: 70, spread: 70, origin: { y: 0.6, x: 0.2 }, colors: ['#f43f5e', '#fbbf24', '#ffffff'] });
+            confetti({ particleCount: 70, spread: 70, origin: { y: 0.6, x: 0.8 }, colors: ['#f43f5e', '#fbbf24', '#ffffff'] });
         }
 
         function burstHearts() {
@@ -453,7 +457,7 @@
             }
         }
 
-        // --- 5. REALTIME WISH WALL (FIREBASE) ---
+        // --- 5. LƯU BÚT (HỖ TRỢ CẢ FIREBASE & LOCALSTORAGE) ---
         function addStudentWish(e) {
             e.preventDefault();
             const nameInput = document.getElementById('student-name');
@@ -468,13 +472,22 @@
                 ];
                 const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
-                // Đẩy dữ liệu lên Firebase Database trực tuyến
-                wishesRef.push({
+                const newWish = {
                     name: nameInput.value.trim(),
                     wish: wishInput.value.trim(),
                     color: randomColor,
                     likes: 0
-                });
+                };
+
+                if (useFirebase && db) {
+                    db.ref('wishes_9A1').push(newWish);
+                } else {
+                    let localWishes = JSON.parse(localStorage.getItem('wishes_9A1') || '[]');
+                    newWish.id = 'local_' + Date.now();
+                    localWishes.push(newWish);
+                    localStorage.setItem('wishes_9A1', JSON.stringify(localWishes));
+                    loadWishes();
+                }
 
                 burstHearts();
                 nameInput.value = '';
@@ -482,26 +495,29 @@
             }
         }
 
-        // Lắng nghe dữ liệu thay đổi thời gian thực từ Firebase
-        wishesRef.on('value', (snapshot) => {
+        function loadWishes() {
+            if (useFirebase && db) {
+                db.ref('wishes_9A1').on('value', (snapshot) => {
+                    const data = snapshot.val();
+                    renderWishWall(data ? Object.keys(data).map(key => ({ id: key, ...data[key] })).reverse() : []);
+                });
+            } else {
+                const localWishes = JSON.parse(localStorage.getItem('wishes_9A1') || '[]');
+                renderWishWall(localWishes.reverse());
+            }
+        }
+
+        function renderWishWall(wishesArray) {
             const wall = document.getElementById('wish-wall');
             if (!wall) return;
 
-            const data = snapshot.val();
-            if (!data) {
+            if (wishesArray.length === 0) {
                 wall.innerHTML = '<p class="text-center col-span-full text-rose-200/70 text-sm">Chưa có lời chúc nào. Hãy là người đầu tiên gửi lời chúc đến Cô!</p>';
                 return;
             }
 
-            // Chuyển đổi object từ Firebase thành mảng và đảo ngược để hiển thị mới nhất lên đầu
-            const wishesArray = Object.keys(data).map(key => ({
-                id: key,
-                ...data[key]
-            })).reverse();
-
             wall.innerHTML = wishesArray.map(item => `
                 <div class="bg-gradient-to-br ${item.color} border border-white/20 p-4 rounded-2xl shadow-lg backdrop-blur-sm transition hover:scale-[1.02] relative group">
-                    <!-- Nút Xóa Lời Chúc -->
                     <button onclick="deleteWish('${item.id}')" class="absolute top-3 right-3 text-rose-200/50 hover:text-white bg-black/40 hover:bg-rose-600 w-7 h-7 rounded-full flex items-center justify-center transition text-xs shadow-md z-10" title="Xóa lời chúc">
                         <i class="fa-solid fa-trash-can"></i>
                     </button>
@@ -515,9 +531,8 @@
                         "${item.wish}"
                     </p>
 
-                    <!-- Nút Thả Tim -->
                     <div class="flex items-center justify-between pt-2 border-t border-white/10">
-                        <span class="text-[10px] text-rose-200/60 italic">9A1 Realtime</span>
+                        <span class="text-[10px] text-rose-200/60 italic">9A1 Lưu Bút</span>
                         <button onclick="likeWish('${item.id}', ${item.likes || 0})" class="bg-rose-500/30 hover:bg-rose-500/60 border border-rose-400/40 text-white px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition active:scale-95 shadow">
                             <i class="fa-solid fa-heart text-rose-400 animate-pulse text-sm"></i> 
                             <span>Thả Tim</span> 
@@ -526,20 +541,33 @@
                     </div>
                 </div>
             `).join('');
-        });
+        }
 
-        // Hàm Xóa Lời Chúc trên Firebase
         function deleteWish(id) {
             if (confirm("Bạn có chắc chắn muốn xóa lời chúc này không?")) {
-                db.ref('wishes_9A1/' + id).remove();
+                if (useFirebase && db && !id.startsWith('local_')) {
+                    db.ref('wishes_9A1/' + id).remove();
+                } else {
+                    let localWishes = JSON.parse(localStorage.getItem('wishes_9A1') || '[]');
+                    localWishes = localWishes.filter(item => item.id !== id);
+                    localStorage.setItem('wishes_9A1', JSON.stringify(localWishes));
+                    loadWishes();
+                }
             }
         }
 
-        // Hàm Thả Tim trên Firebase
         function likeWish(id, currentLikes) {
-            db.ref('wishes_9A1/' + id).update({
-                likes: currentLikes + 1
-            });
+            if (useFirebase && db && !id.startsWith('local_')) {
+                db.ref('wishes_9A1/' + id).update({ likes: currentLikes + 1 });
+            } else {
+                let localWishes = JSON.parse(localStorage.getItem('wishes_9A1') || '[]');
+                localWishes = localWishes.map(item => {
+                    if (item.id === id) item.likes = (item.likes || 0) + 1;
+                    return item;
+                });
+                localStorage.setItem('wishes_9A1', JSON.stringify(localWishes));
+                loadWishes();
+            }
         }
     </script>
 </body>
