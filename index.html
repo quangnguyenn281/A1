@@ -323,7 +323,7 @@
                 </div>
             </section>
 
-            <!-- Tường Lưu Bút (Có Nút Thùng Rác Xóa & Thả Tim ❤️) -->
+            <!-- Tường Lưu Bút (Có Nút Thùng Rác Xóa & Nút Thả Tim ❤️) -->
             <section class="w-full glass-card rounded-3xl p-6 sm:p-8 mb-12">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-rose-300/20">
                     <div>
@@ -331,7 +331,7 @@
                             <i class="fa-solid fa-comments text-rose-400"></i>
                             Góc Lưu Bút 9A1 Tặng Cô Mỹ Thắm
                         </h3>
-                        <p class="text-xs text-rose-200/80">Thêm lời chúc, thả tim ❤️ hoặc bấm thùng rác để xóa trực tiếp tại đây!</p>
+                        <p class="text-xs text-rose-200/80">Thêm lời chúc, thả tim ❤️ hoặc bấm thùng rác 🗑️ để xóa trực tiếp tại đây!</p>
                     </div>
                     <button onclick="burstHearts()" class="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-lg transition flex items-center gap-2">
                         <i class="fa-solid fa-heart text-amber-300"></i> Bắn Ngàn Trái Tim
@@ -579,7 +579,7 @@
             wall.innerHTML = initialWishes.map((item, index) => `
                 <div class="bg-gradient-to-br ${item.color} border border-white/20 p-4 rounded-2xl shadow-lg backdrop-blur-sm transition hover:scale-[1.02] relative group">
                     <!-- Nút Xóa Lời Chúc (Icon Thùng Rác góc trên bên phải) -->
-                    <button onclick="deleteWish(${index})" class="absolute top-3 right-3 text-rose-200/50 hover:text-white bg-black/30 hover:bg-rose-600 w-7 h-7 rounded-full flex items-center justify-center transition text-xs shadow" title="Xóa lời chúc">
+                    <button onclick="deleteWish(${index})" class="absolute top-3 right-3 text-rose-200/50 hover:text-white bg-black/40 hover:bg-rose-600 w-7 h-7 rounded-full flex items-center justify-center transition text-xs shadow-md z-10" title="Xóa lời chúc">
                         <i class="fa-solid fa-trash-can"></i>
                     </button>
 
@@ -593,9 +593,12 @@
                     </p>
 
                     <!-- Nút Thả Tim (Like) ở góc dưới bên phải card -->
-                    <div class="flex items-center justify-end gap-1">
-                        <button onclick="likeWish(${index})" class="text-rose-300 hover:text-white bg-black/20 hover:bg-rose-500/60 px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5 transition active:scale-90 shadow">
-                            <i class="fa-solid fa-heart text-rose-400"></i> <span>${item.likes || 0}</span>
+                    <div class="flex items-center justify-between pt-2 border-t border-white/10">
+                        <span class="text-[10px] text-rose-200/60 italic">Tập thể 9A1</span>
+                        <button onclick="likeWish(${index})" class="bg-rose-500/30 hover:bg-rose-500/60 border border-rose-400/40 text-white px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition active:scale-95 shadow">
+                            <i class="fa-solid fa-heart text-rose-400 animate-pulse text-sm"></i> 
+                            <span>Thả Tim</span> 
+                            <span class="bg-black/40 px-2 py-0.5 rounded-full text-[11px] text-amber-200 font-bold">${item.likes || 0}</span>
                         </button>
                     </div>
                 </div>
