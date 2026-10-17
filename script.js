@@ -3,7 +3,7 @@ function checkPassword(e) {
     e.preventDefault();
     const inputPass = document.getElementById('site-password').value;
     
-    // 🔑 MẬT KHẨU WEB Ở ĐÂY
+    // 🔑 MẬT KHẨU TRANG WEB Ở ĐÂY
     const correctPassword = "9a1"; 
 
     if (inputPass === correctPassword) {
@@ -347,8 +347,8 @@ function renderWishWall() {
 
     wall.innerHTML = initialWishes.map((item, index) => `
         <div class="bg-gradient-to-br ${item.color} border border-white/20 p-4 rounded-2xl shadow-lg backdrop-blur-sm transition hover:scale-[1.02] relative group">
-            <!-- Nút Xóa Lời Chúc (Icon thùng rác ở góc trên bên phải) -->
-            <button onclick="deleteWish(${index})" class="absolute top-3 right-3 text-rose-200/50 hover:text-white bg-black/20 hover:bg-rose-600/70 w-7 h-7 rounded-full flex items-center justify-center transition text-xs shadow" title="Xóa lời chúc này">
+            <!-- Nút Xóa Lời Chúc (Icon Thùng Rác) -->
+            <button onclick="deleteWish(${index})" class="absolute top-3 right-3 text-rose-200/50 hover:text-white bg-black/30 hover:bg-rose-600 w-7 h-7 rounded-full flex items-center justify-center transition text-xs shadow" title="Xóa lời chúc">
                 <i class="fa-solid fa-trash-can"></i>
             </button>
 
@@ -399,12 +399,12 @@ function addStudentWish(e) {
 function deleteWish(index) {
     if (confirm("Bạn có chắc chắn muốn xóa lời chúc này không?")) {
         initialWishes.splice(index, 1); // Xóa phần tử tại vị trí index
-        localStorage.setItem('wishes_9A1', JSON.stringify(initialWishes)); // Cập nhật lại localStorage
-        renderWishWall(); // Vẽ lại giao diện tường lưu bút
+        localStorage.setItem('wishes_9A1', JSON.stringify(initialWishes)); // Cập nhật lại bộ nhớ
+        renderWishWall(); // Vẽ lại tường lưu bút
     }
 }
 
-// Tự động khởi chạy khi mở web
+// Khởi chạy khi tải trang
 document.addEventListener("DOMContentLoaded", () => {
     renderWish();
     renderWishWall();
