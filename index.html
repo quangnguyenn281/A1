@@ -114,27 +114,8 @@
 </head>
 <body class="relative flex flex-col min-h-screen text-slate-100 selection:bg-rose-500 selection:text-white">
 
-    <!-- KHUNG NHẬP MẬT KHẨU -->
-    <div id="password-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-[#2b081a] via-[#4a0e2e] to-[#31071d] p-4">
-        <div class="glass-card p-6 sm:p-8 rounded-3xl max-w-md w-full text-center shadow-2xl border border-rose-300/30">
-            <div class="w-16 h-16 bg-gradient-to-tr from-rose-500 to-amber-300 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-rose-500/30">
-                <i class="fa-solid fa-lock text-white text-2xl"></i>
-            </div>
-            <h2 class="font-serif-title text-2xl font-bold text-amber-200 mb-2">Góc Lưu Bút 9A1</h2>
-            <p class="text-xs sm:text-sm text-rose-200/80 mb-6">Mật khẩu: <code class="bg-black/30 px-2 py-1 rounded text-amber-300">9a1</code></p>
-            
-            <form onsubmit="checkPassword(event)" class="space-y-4">
-                <input type="password" id="site-password" required placeholder="Nhập mật khẩu..." class="w-full bg-white/10 border border-rose-300/30 rounded-xl px-4 py-3 text-sm text-white placeholder-rose-200/50 focus:outline-none focus:border-rose-400 text-center tracking-widest">
-                <button type="submit" class="w-full bg-gradient-to-r from-rose-500 via-pink-500 to-amber-500 text-white font-bold py-3 rounded-xl shadow-lg hover:opacity-90 transition transform hover:scale-[1.02]">
-                    Mở Khóa Trang Web
-                </button>
-                <p id="error-msg" class="text-rose-400 text-xs hidden font-medium">Mật khẩu chưa chính xác, thử lại nha!</p>
-            </form>
-        </div>
-    </div>
-
     <!-- NỘI DUNG WEB CHÍNH -->
-    <div id="main-content" class="hidden flex-col min-h-screen">
+    <div id="main-content" class="flex flex-col min-h-screen">
 
         <!-- Canvas Hiệu Ứng -->
         <canvas id="particleCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
@@ -427,28 +408,14 @@
             localStorage.setItem('wishes_9A1', JSON.stringify(initialWishes));
         }
 
-        // --- 1. MẬT KHẨU ---
-        function checkPassword(e) {
-            e.preventDefault();
-            const inputPass = document.getElementById('site-password').value;
-            const correctPassword = "9a1";
+        // Khởi chạy ngay khi tải trang xong
+        window.onload = function() {
+            initParticles();
+            renderPoem();
+            loadWishes();
+        };
 
-            if (inputPass === correctPassword) {
-                document.getElementById('password-screen').style.display = 'none';
-                const mainContent = document.getElementById('main-content');
-                mainContent.classList.remove('hidden');
-                mainContent.classList.add('flex');
-                initParticles();
-                renderPoem();
-                loadWishes();
-            } else {
-                const errorMsg = document.getElementById('error-msg');
-                errorMsg.classList.remove('hidden');
-                document.getElementById('site-password').value = '';
-            }
-        }
-
-        // --- 2. CANVAS PARTICLES ---
+        // --- CANVAS PARTICLES ---
         let canvas, ctx, width, height;
         let particles = [];
         class Particle {
@@ -529,7 +496,7 @@
             requestAnimationFrame(animateParticles);
         }
 
-        // --- 3. AUDIO & FIREWORKS ---
+        // --- AUDIO & FIREWORKS ---
         let audioCtx = null, isPlaying = false;
         function toggleAudio() {
             const btnText = document.getElementById('audio-text');
@@ -556,7 +523,7 @@
             confetti({ spread: 360, ticks: 100, gravity: 0, decay: 0.94, startVelocity: 30, shapes: ['heart'], colors: ['#FF1493', '#FF69B4', '#FFC0CB'] });
         }
 
-        // --- 4. 3D ENVELOPE & TYPEWRITER ---
+        // --- 3D ENVELOPE & TYPEWRITER ---
         let isCardOpen = false;
         const mainCardText = "Kính chúc Cô Mỹ Thắm luôn tràn đầy sức khỏe, mãi xinh đẹp, trẻ trung và cùng tập thể 9A1 gặt hái thành công rực rỡ trong năm học cuối cấp quan trọng này!";
         let typewriterIndex = 0, isTyping = false;
@@ -597,7 +564,7 @@
             }
         }
 
-        // --- 5. LƯU BÚT REALTIME ---
+        // --- LƯU BÚT REALTIME ---
         function addStudentWish(e) {
             e.preventDefault();
             const nameInput = document.getElementById('student-name');
