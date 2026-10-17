@@ -3,7 +3,7 @@ function checkPassword(e) {
     e.preventDefault();
     const inputPass = document.getElementById('site-password').value;
     
-    // 🔑 MẬT KHẨU WEB Ở ĐÂY (Thay đổi theo ý thích)
+    // 🔑 MẬT KHẨU WEB Ở ĐÂY
     const correctPassword = "9a1"; 
 
     if (inputPass === correctPassword) {
@@ -12,7 +12,6 @@ function checkPassword(e) {
         mainContent.classList.remove('hidden');
         mainContent.classList.add('flex');
         
-        // Khởi chạy hiệu ứng Canvas Particle sau khi mở khóa thành công
         initParticles();
     } else {
         const errorMsg = document.getElementById('error-msg');
@@ -335,7 +334,7 @@ function prevWish() {
 }
 
 
-// --- 7. WISH WALL & LƯU LỜI CHÚC TRÊN TRÌNH DUYỆT (LOCALSTORAGE) ---
+// --- 7. WISH WALL & QUẢN LÝ LƯU BÚT (THÊM / XÓA / LƯU LOCALSTORAGE) ---
 let initialWishes = JSON.parse(localStorage.getItem('wishes_9A1')) || [
     { name: "Vũ Quang Nguyên (Lớp Trưởng)", wish: "Chúc Cô Mỹ Thắm 20/10 luôn xinh đẹp và bao dung cho lũ học trò 9A1 hay nghịch ngợm ạ!", color: "from-rose-500/30 to-pink-500/20" },
     { name: "Bảo Nhi", wish: "Kính chúc Cô Mỹ Thắm thật nhiều sức khỏe, luôn vui vẻ mỗi khi bước vào lớp 9A1!", color: "from-amber-500/30 to-rose-500/20" },
@@ -346,13 +345,17 @@ function renderWishWall() {
     const wall = document.getElementById('wish-wall');
     if (!wall) return;
 
-    wall.innerHTML = initialWishes.map(item => `
-        <div class="bg-gradient-to-br ${item.color} border border-white/20 p-4 rounded-2xl shadow-lg backdrop-blur-sm transition hover:scale-[1.02]">
-            <div class="flex items-center justify-between mb-2">
+    wall.innerHTML = initialWishes.map((item, index) => `
+        <div class="bg-gradient-to-br ${item.color} border border-white/20 p-4 rounded-2xl shadow-lg backdrop-blur-sm transition hover:scale-[1.02] relative group">
+            <!-- Nút Xóa Lời Chúc (Icon thùng rác ở góc trên bên phải) -->
+            <button onclick="deleteWish(${index})" class="absolute top-3 right-3 text-rose-200/50 hover:text-white bg-black/20 hover:bg-rose-600/70 w-7 h-7 rounded-full flex items-center justify-center transition text-xs shadow" title="Xóa lời chúc này">
+                <i class="fa-solid fa-trash-can"></i>
+            </button>
+
+            <div class="flex items-center justify-between mb-2 pr-8">
                 <span class="font-bold text-sm text-amber-200 flex items-center gap-1.5">
                     <i class="fa-solid fa-user-graduate text-xs text-rose-300"></i> ${item.name}
                 </span>
-                <i class="fa-solid fa-heart text-xs text-rose-400"></i>
             </div>
             <p class="text-xs sm:text-sm text-rose-100/90 leading-relaxed">
                 "${item.wish}"
@@ -381,7 +384,7 @@ function addStudentWish(e) {
             color: randomColor
         });
 
-        // Lưu danh sách lời chúc vào localStorage
+        // Lưu vào localStorage
         localStorage.setItem('wishes_9A1', JSON.stringify(initialWishes));
 
         renderWishWall();
@@ -392,7 +395,16 @@ function addStudentWish(e) {
     }
 }
 
-// Tự động khởi chạy giao diện slider & tường lời chúc ban đầu
+// Hàm Xóa Lời Chúc
+function deleteWish(index) {
+    if (confirm("Bạn có chắc chắn muốn xóa lời chúc này không?")) {
+        initialWishes.splice(index, 1); // Xóa phần tử tại vị trí index
+        localStorage.setItem('wishes_9A1', JSON.stringify(initialWishes)); // Cập nhật lại localStorage
+        renderWishWall(); // Vẽ lại giao diện tường lưu bút
+    }
+}
+
+// Tự động khởi chạy khi mở web
 document.addEventListener("DOMContentLoaded", () => {
     renderWish();
     renderWishWall();
