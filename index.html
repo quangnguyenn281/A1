@@ -15,6 +15,10 @@
     <!-- Canvas Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
+    <!-- FIREBASE SDK (COMPAT V9) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
@@ -24,15 +28,9 @@
             min-height: 100vh;
         }
 
-        .font-serif-title {
-            font-family: 'Playfair Display', serif;
-        }
+        .font-serif-title { font-family: 'Playfair Display', serif; }
+        .font-handwriting { font-family: 'Dancing Script', cursive; }
 
-        .font-handwriting {
-            font-family: 'Dancing Script', cursive;
-        }
-
-        /* Glassmorphism card effect */
         .glass-card {
             background: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(16px);
@@ -48,11 +46,7 @@
             box-shadow: 0 0 25px rgba(255, 215, 0, 0.2);
         }
 
-        /* Envelope and Card 3D Styling */
-        .envelope-container {
-            perspective: 1200px;
-        }
-
+        .envelope-container { perspective: 1200px; }
         .envelope-box {
             position: relative;
             width: 320px;
@@ -66,121 +60,61 @@
         }
 
         @media (min-width: 640px) {
-            .envelope-box {
-                width: 480px;
-                height: 310px;
-            }
+            .envelope-box { width: 480px; height: 310px; }
         }
 
-        .envelope-box:hover {
-            transform: translateY(-8px) scale(1.02);
-        }
+        .envelope-box:hover { transform: translateY(-8px) scale(1.02); }
 
         .envelope-box .flap {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 0;
-            border-left: 160px solid transparent;
-            border-right: 160px solid transparent;
-            border-top: 130px solid #f43f5e;
-            transform-origin: top;
+            position: absolute; top: 0; left: 0; width: 0; height: 0;
+            border-left: 160px solid transparent; border-right: 160px solid transparent;
+            border-top: 130px solid #f43f5e; transform-origin: top;
             transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.3s, z-index 0.2s ease 0.3s;
-            z-index: 4;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+            z-index: 4; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
         }
 
         @media (min-width: 640px) {
-            .envelope-box .flap {
-                border-left-width: 240px;
-                border-right-width: 240px;
-                border-top-width: 170px;
-            }
+            .envelope-box .flap { border-left-width: 240px; border-right-width: 240px; border-top-width: 170px; }
         }
 
         .envelope-box .pocket {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 0;
-            border-left: 160px solid #fb7185;
-            border-right: 160px solid #fb7185;
-            border-bottom: 125px solid #e11d48;
-            border-bottom-left-radius: 16px;
-            border-bottom-right-radius: 16px;
+            position: absolute; bottom: 0; left: 0; width: 0; height: 0;
+            border-left: 160px solid #fb7185; border-right: 160px solid #fb7185;
+            border-bottom: 125px solid #e11d48; border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;
             z-index: 3;
         }
 
         @media (min-width: 640px) {
-            .envelope-box .pocket {
-                border-left-width: 240px;
-                border-right-width: 240px;
-                border-bottom-width: 170px;
-            }
+            .envelope-box .pocket { border-left-width: 240px; border-right-width: 240px; border-bottom-width: 170px; }
         }
 
         .envelope-box .inner-card {
-            position: absolute;
-            bottom: 12px;
-            left: 4%;
-            width: 92%;
-            height: 92%;
-            background: linear-gradient(135deg, #ffffff 0%, #fff1f2 100%);
-            color: #881337;
-            border-radius: 12px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.25);
-            transition: transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
-            z-index: 2;
-            padding: 1.25rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+            position: absolute; bottom: 12px; left: 4%; width: 92%; height: 92%;
+            background: linear-gradient(135deg, #ffffff 0%, #fff1f2 100%); color: #881337;
+            border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+            transition: transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 2; padding: 1.25rem;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
             border: 2px dashed #f43f5e;
         }
 
-        .envelope-box.open .flap {
-            transform: rotateX(180deg);
-            z-index: 1;
-        }
-
-        .envelope-box.open .inner-card {
-            transform: translateY(-170px) scale(1.05);
-            z-index: 5;
-        }
+        .envelope-box.open .flap { transform: rotateX(180deg); z-index: 1; }
+        .envelope-box.open .inner-card { transform: translateY(-170px) scale(1.05); z-index: 5; }
 
         @media (min-width: 640px) {
-            .envelope-box.open .inner-card {
-                transform: translateY(-230px) scale(1.06);
-            }
+            .envelope-box.open .inner-card { transform: translateY(-230px) scale(1.06); }
         }
 
-        .text-glow-gold {
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.4);
-        }
+        .text-glow-gold { text-shadow: 0 0 10px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.4); }
 
         @keyframes pulseGlow {
             0%, 100% { box-shadow: 0 0 15px rgba(244, 63, 94, 0.6); }
             50% { box-shadow: 0 0 30px rgba(251, 113, 133, 0.9), 0 0 45px rgba(255, 215, 0, 0.6); }
         }
+        .badge-glow { animation: pulseGlow 3s infinite; }
 
-        .badge-glow {
-            animation: pulseGlow 3s infinite;
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(43, 8, 26, 0.8);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #f43f5e;
-            border-radius: 4px;
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(43, 8, 26, 0.8); }
+        ::-webkit-scrollbar-thumb { background: #f43f5e; border-radius: 4px; }
     </style>
 </head>
 <body class="relative flex flex-col min-h-screen text-slate-100 selection:bg-rose-500 selection:text-white">
@@ -287,43 +221,7 @@
                 </button>
             </div>
 
-            <!-- Khung Lời Chúc -->
-            <section class="w-full glass-card rounded-3xl p-6 sm:p-10 mb-12 relative overflow-hidden">
-                <div class="flex items-center gap-3 mb-8 pb-4 border-b border-rose-300/20">
-                    <div class="w-10 h-10 rounded-xl bg-rose-500/20 border border-rose-400/30 flex items-center justify-center text-rose-300 text-xl">
-                        <i class="fa-solid fa-graduation-cap"></i>
-                    </div>
-                    <div>
-                        <h2 class="font-serif-title text-2xl sm:text-3xl font-bold text-amber-200">
-                            Gửi Cô Mỹ Thắm - Tình Yêu Của Lớp 9A1
-                        </h2>
-                        <p class="text-xs sm:text-sm text-rose-200/80">Những tâm tư tình cảm của tập thể 9A1 dành riêng cho Cô</p>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div class="glass-gold-card p-5 rounded-2xl">
-                        <div class="flex items-start gap-3">
-                            <span class="w-8 h-8 rounded-lg bg-amber-400/20 text-amber-300 font-bold flex items-center justify-center text-sm border border-amber-400/30 shrink-0">01</span>
-                            <div>
-                                <h3 class="font-semibold text-amber-200 text-base mb-1.5">Đồng Hành Tận Tụy</h3>
-                                <p class="text-xs sm:text-sm text-rose-100/90 leading-relaxed">Năm học lớp 9 đầy áp lực, cảm ơn Cô Mỹ Thắm đã luôn kiên nhẫn, yêu thương và truyền động lực cho tập thể 9A1!</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="glass-gold-card p-5 rounded-2xl">
-                        <div class="flex items-start gap-3">
-                            <span class="w-8 h-8 rounded-lg bg-rose-400/20 text-rose-300 font-bold flex items-center justify-center text-sm border border-rose-400/30 shrink-0">02</span>
-                            <div>
-                                <h3 class="font-semibold text-rose-200 text-base mb-1.5">Trẻ Trung & Hạnh Phúc</h3>
-                                <p class="text-xs sm:text-sm text-rose-100/90 leading-relaxed">Kính chúc Cô luôn tươi trẻ, tràn đầy nhiệt huyết, nụ cười rạng rỡ và gặt hái thật nhiều niềm vui trong cuộc sống!</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Tường Lưu Bút (Có Nút Thùng Rác Xóa & Nút Thả Tim ❤️) -->
+            <!-- Tường Lưu Bút Realtime -->
             <section class="w-full glass-card rounded-3xl p-6 sm:p-8 mb-12">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-rose-300/20">
                     <div>
@@ -331,7 +229,7 @@
                             <i class="fa-solid fa-comments text-rose-400"></i>
                             Góc Lưu Bút 9A1 Tặng Cô Mỹ Thắm
                         </h3>
-                        <p class="text-xs text-rose-200/80">Thêm lời chúc, thả tim ❤️ hoặc bấm thùng rác 🗑️ để xóa trực tiếp tại đây!</p>
+                        <p class="text-xs text-rose-200/80">Đồng bộ trực tuyến thời gian thực (Realtime)</p>
                     </div>
                     <button onclick="burstHearts()" class="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-lg transition flex items-center gap-2">
                         <i class="fa-solid fa-heart text-amber-300"></i> Bắn Ngàn Trái Tim
@@ -353,7 +251,7 @@
 
                 <!-- Lưới hiển thị Lưu Bút -->
                 <div id="wish-wall" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Được render bằng JavaScript -->
+                    <!-- Được đồng bộ trực tiếp từ Firebase -->
                 </div>
             </section>
 
@@ -369,13 +267,29 @@
         </footer>
     </div>
 
-    <!-- JAVASCRIPT GỘP TRỰC TIẾP TRONG HTML -->
+    <!-- SCRIPT TÍCH HỢP FIREBASE & XỬ LÝ GIAO DIỆN -->
     <script>
+        // --- ⚙️ CẤU HÌNH FIREBASE CỦA BẠN (Dán cấu hình từ Firebase Console vào đây) ---
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            databaseURL: "YOUR_DATABASE_URL",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Khởi tạo Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const wishesRef = db.ref('wishes_9A1');
+
         // --- 1. MẬT KHẨU ---
         function checkPassword(e) {
             e.preventDefault();
             const inputPass = document.getElementById('site-password').value;
-            const correctPassword = "9a1"; // Mật khẩu trang web
+            const correctPassword = "9a1";
 
             if (inputPass === correctPassword) {
                 document.getElementById('password-screen').style.display = 'none';
@@ -471,30 +385,8 @@
             requestAnimationFrame(animateParticles);
         }
 
-        // --- 3. AUDIO ---
+        // --- 3. AUDIO & FIREWORKS ---
         let audioCtx = null, isPlaying = false, timerId = null;
-        const musicalNotes = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25, 587.33, 659.25];
-        const songMelody = [{note: 4, duration: 0.6}, {note: 7, duration: 0.6}, {note: 9, duration: 0.8}, {note: 7, duration: 0.6}, {note: 4, duration: 0.6}, {note: 2, duration: 0.8}];
-        let noteIndex = 0;
-
-        function playMelodyNote() {
-            if (!isPlaying || !audioCtx) return;
-            const item = songMelody[noteIndex];
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(musicalNotes[item.note], audioCtx.currentTime);
-            gain.gain.setValueAtTime(0, audioCtx.currentTime);
-            gain.gain.linearRampToValueAtTime(0.06, audioCtx.currentTime + 0.1);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + item.duration);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + item.duration);
-            noteIndex = (noteIndex + 1) % songMelody.length;
-            timerId = setTimeout(playMelodyNote, item.duration * 850);
-        }
-
         function toggleAudio() {
             const btnText = document.getElementById('audio-text');
             const btnIcon = document.getElementById('audio-icon');
@@ -502,18 +394,15 @@
             if (audioCtx.state === 'suspended') audioCtx.resume();
             if (!isPlaying) {
                 isPlaying = true;
-                playMelodyNote();
                 btnText.textContent = "Tắt Nhạc";
                 btnIcon.className = "fa-solid fa-volume-high text-amber-300 animate-bounce";
             } else {
                 isPlaying = false;
-                clearTimeout(timerId);
                 btnText.textContent = "Phát Nhạc";
                 btnIcon.className = "fa-solid fa-music text-rose-400";
             }
         }
 
-        // --- 4. FIREWORKS & CONFETTI ---
         function triggerFireworks() {
             confetti({ particleCount: 80, spread: 70, origin: { y: 0.6, x: 0.2 }, colors: ['#f43f5e', '#fbbf24', '#ffffff'] });
             confetti({ particleCount: 80, spread: 70, origin: { y: 0.6, x: 0.8 }, colors: ['#f43f5e', '#fbbf24', '#ffffff'] });
@@ -523,7 +412,7 @@
             confetti({ spread: 360, ticks: 100, gravity: 0, decay: 0.94, startVelocity: 30, shapes: ['heart'], colors: ['#FF1493', '#FF69B4', '#FFC0CB'] });
         }
 
-        // --- 5. 3D ENVELOPE & TYPEWRITER ---
+        // --- 4. 3D ENVELOPE & TYPEWRITER ---
         let isCardOpen = false;
         const mainCardText = "Kính chúc Cô Mỹ Thắm luôn tràn đầy sức khỏe, mãi xinh đẹp, trẻ trung và cùng tập thể 9A1 gặt hái thành công rực rỡ trong năm học cuối cấp quan trọng này!";
         let typewriterIndex = 0, isTyping = false;
@@ -551,7 +440,6 @@
                 btnText.textContent = "Gấp Thiệp Lại";
                 isCardOpen = true;
                 triggerFireworks();
-                if (!isPlaying) toggleAudio();
                 if (!isTyping && typewriterIndex === 0) {
                     isTyping = true;
                     setTimeout(runTypewriter, 700);
@@ -565,46 +453,7 @@
             }
         }
 
-        // --- 6. WISH WALL (THÊM, XÓA, THẢ TIM & LƯU LOCALSTORAGE) ---
-        let initialWishes = JSON.parse(localStorage.getItem('wishes_9A1')) || [
-            { name: "Vũ Quang Nguyên (Lớp Trưởng)", wish: "Chúc Cô Mỹ Thắm 20/10 luôn xinh đẹp và bao dung cho lũ học trò 9A1 hay nghịch ngợm ạ!", color: "from-rose-500/30 to-pink-500/20", likes: 5 },
-            { name: "Bảo Nhi", wish: "Kính chúc Cô Mỹ Thắm thật nhiều sức khỏe, luôn vui vẻ mỗi khi bước vào lớp 9A1!", color: "from-amber-500/30 to-rose-500/20", likes: 3 },
-            { name: "Huy Khánh", wish: "Cảm ơn Cô Mỹ Thắm đã đồng hành cùng 9A1 qua bao đợt ôn thi vất vả. Yêu Cô nhiều!", color: "from-purple-500/30 to-pink-500/20", likes: 4 }
-        ];
-
-        function renderWishWall() {
-            const wall = document.getElementById('wish-wall');
-            if (!wall) return;
-
-            wall.innerHTML = initialWishes.map((item, index) => `
-                <div class="bg-gradient-to-br ${item.color} border border-white/20 p-4 rounded-2xl shadow-lg backdrop-blur-sm transition hover:scale-[1.02] relative group">
-                    <!-- Nút Xóa Lời Chúc (Icon Thùng Rác góc trên bên phải) -->
-                    <button onclick="deleteWish(${index})" class="absolute top-3 right-3 text-rose-200/50 hover:text-white bg-black/40 hover:bg-rose-600 w-7 h-7 rounded-full flex items-center justify-center transition text-xs shadow-md z-10" title="Xóa lời chúc">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </button>
-
-                    <div class="flex items-center justify-between mb-2 pr-8">
-                        <span class="font-bold text-sm text-amber-200 flex items-center gap-1.5">
-                            <i class="fa-solid fa-user-graduate text-xs text-rose-300"></i> ${item.name}
-                        </span>
-                    </div>
-                    <p class="text-xs sm:text-sm text-rose-100/90 leading-relaxed mb-4">
-                        "${item.wish}"
-                    </p>
-
-                    <!-- Nút Thả Tim (Like) ở góc dưới bên phải card -->
-                    <div class="flex items-center justify-between pt-2 border-t border-white/10">
-                        <span class="text-[10px] text-rose-200/60 italic">Tập thể 9A1</span>
-                        <button onclick="likeWish(${index})" class="bg-rose-500/30 hover:bg-rose-500/60 border border-rose-400/40 text-white px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition active:scale-95 shadow">
-                            <i class="fa-solid fa-heart text-rose-400 animate-pulse text-sm"></i> 
-                            <span>Thả Tim</span> 
-                            <span class="bg-black/40 px-2 py-0.5 rounded-full text-[11px] text-amber-200 font-bold">${item.likes || 0}</span>
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
+        // --- 5. REALTIME WISH WALL (FIREBASE) ---
         function addStudentWish(e) {
             e.preventDefault();
             const nameInput = document.getElementById('student-name');
@@ -619,41 +468,79 @@
                 ];
                 const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
-                initialWishes.unshift({
+                // Đẩy dữ liệu lên Firebase Database trực tuyến
+                wishesRef.push({
                     name: nameInput.value.trim(),
                     wish: wishInput.value.trim(),
                     color: randomColor,
                     likes: 0
                 });
 
-                localStorage.setItem('wishes_9A1', JSON.stringify(initialWishes));
-                renderWishWall();
                 burstHearts();
-
                 nameInput.value = '';
                 wishInput.value = '';
             }
         }
 
-        // Hàm Xóa Lời Chúc
-        function deleteWish(index) {
+        // Lắng nghe dữ liệu thay đổi thời gian thực từ Firebase
+        wishesRef.on('value', (snapshot) => {
+            const wall = document.getElementById('wish-wall');
+            if (!wall) return;
+
+            const data = snapshot.val();
+            if (!data) {
+                wall.innerHTML = '<p class="text-center col-span-full text-rose-200/70 text-sm">Chưa có lời chúc nào. Hãy là người đầu tiên gửi lời chúc đến Cô!</p>';
+                return;
+            }
+
+            // Chuyển đổi object từ Firebase thành mảng và đảo ngược để hiển thị mới nhất lên đầu
+            const wishesArray = Object.keys(data).map(key => ({
+                id: key,
+                ...data[key]
+            })).reverse();
+
+            wall.innerHTML = wishesArray.map(item => `
+                <div class="bg-gradient-to-br ${item.color} border border-white/20 p-4 rounded-2xl shadow-lg backdrop-blur-sm transition hover:scale-[1.02] relative group">
+                    <!-- Nút Xóa Lời Chúc -->
+                    <button onclick="deleteWish('${item.id}')" class="absolute top-3 right-3 text-rose-200/50 hover:text-white bg-black/40 hover:bg-rose-600 w-7 h-7 rounded-full flex items-center justify-center transition text-xs shadow-md z-10" title="Xóa lời chúc">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+
+                    <div class="flex items-center justify-between mb-2 pr-8">
+                        <span class="font-bold text-sm text-amber-200 flex items-center gap-1.5">
+                            <i class="fa-solid fa-user-graduate text-xs text-rose-300"></i> ${item.name}
+                        </span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-rose-100/90 leading-relaxed mb-4">
+                        "${item.wish}"
+                    </p>
+
+                    <!-- Nút Thả Tim -->
+                    <div class="flex items-center justify-between pt-2 border-t border-white/10">
+                        <span class="text-[10px] text-rose-200/60 italic">9A1 Realtime</span>
+                        <button onclick="likeWish('${item.id}', ${item.likes || 0})" class="bg-rose-500/30 hover:bg-rose-500/60 border border-rose-400/40 text-white px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition active:scale-95 shadow">
+                            <i class="fa-solid fa-heart text-rose-400 animate-pulse text-sm"></i> 
+                            <span>Thả Tim</span> 
+                            <span class="bg-black/40 px-2 py-0.5 rounded-full text-[11px] text-amber-200 font-bold">${item.likes || 0}</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        });
+
+        // Hàm Xóa Lời Chúc trên Firebase
+        function deleteWish(id) {
             if (confirm("Bạn có chắc chắn muốn xóa lời chúc này không?")) {
-                initialWishes.splice(index, 1);
-                localStorage.setItem('wishes_9A1', JSON.stringify(initialWishes));
-                renderWishWall();
+                db.ref('wishes_9A1/' + id).remove();
             }
         }
 
-        // Hàm Thả Tim Lời Chúc
-        function likeWish(index) {
-            initialWishes[index].likes = (initialWishes[index].likes || 0) + 1;
-            localStorage.setItem('wishes_9A1', JSON.stringify(initialWishes));
-            renderWishWall();
+        // Hàm Thả Tim trên Firebase
+        function likeWish(id, currentLikes) {
+            db.ref('wishes_9A1/' + id).update({
+                likes: currentLikes + 1
+            });
         }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            renderWishWall();
-        });
     </script>
 </body>
 </html>
