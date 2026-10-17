@@ -209,12 +209,47 @@
             </div>
 
             <!-- Nút Mở Thiệp -->
-            <div class="text-center mb-16">
+            <div class="text-center mb-10">
                 <button id="open-btn" onclick="toggleEnvelope()" class="bg-gradient-to-r from-rose-500 via-pink-500 to-amber-500 hover:from-rose-600 hover:to-amber-600 text-white font-bold px-8 py-3.5 rounded-full shadow-2xl shadow-rose-500/40 transition-all transform hover:-translate-y-1 text-base sm:text-lg flex items-center gap-3 mx-auto">
                     <i class="fa-solid fa-envelope-open-text text-xl"></i>
                     <span id="open-btn-text">Mở Thiệp Chúc Mừng 3D</span>
                 </button>
             </div>
+
+            <!-- === 2 THẺ TÂM TƯ (BỔ SUNG THEO YÊU CẦU) === -->
+            <section class="w-full glass-card rounded-3xl p-6 sm:p-8 mb-8">
+                <div class="flex items-center gap-3 mb-6 pb-4 border-b border-rose-300/20">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-rose-500 to-amber-300 flex items-center justify-center shadow-lg">
+                        <i class="fa-solid fa-graduation-cap text-white text-base"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-serif-title text-base sm:text-xl font-bold text-amber-200">Gửi Cô Mỹ Thắm - Tình Yêu Của Lớp 9A1</h3>
+                        <p class="text-xs text-rose-200/80">Những tâm tư tình cảm của tập thể 9A1 dành riêng cho Cô</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-black/20 border border-rose-300/30 p-5 rounded-2xl relative">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="bg-amber-500/20 border border-amber-300/40 text-amber-300 font-bold px-3 py-1 rounded-xl text-sm">01</span>
+                            <h4 class="font-serif-title font-bold text-base sm:text-lg text-amber-100">Đồng Hành Tận Tụy</h4>
+                        </div>
+                        <p class="text-xs sm:text-sm text-rose-100/90 leading-relaxed">
+                            Năm học lớp 9 đầy áp lực, cảm ơn Cô Mỹ Thắm đã luôn kiên nhẫn, yêu thương và truyền động lực cho tập thể 9A1!
+                        </p>
+                    </div>
+
+                    <div class="bg-black/20 border border-rose-300/30 p-5 rounded-2xl relative">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="bg-amber-500/20 border border-amber-300/40 text-amber-300 font-bold px-3 py-1 rounded-xl text-sm">02</span>
+                            <h4 class="font-serif-title font-bold text-base sm:text-lg text-amber-100">Trẻ Trung & Hạnh Phúc</h4>
+                        </div>
+                        <p class="text-xs sm:text-sm text-rose-100/90 leading-relaxed">
+                            Kính chúc Cô luôn tươi trẻ, tràn đầy nhiệt huyết, nụ cười rạng rỡ và gặt hái thật nhiều niềm vui trong cuộc sống!
+                        </p>
+                    </div>
+                </div>
+            </section>
 
             <!-- Tường Lưu Bút -->
             <section class="w-full glass-card rounded-3xl p-4 sm:p-8 mb-12">
@@ -224,7 +259,7 @@
                             <i class="fa-solid fa-comments text-rose-400"></i>
                             Góc Lưu Bút 9A1 Tặng Cô Mỹ Thắm
                         </h3>
-                        <p class="text-xs text-rose-200/80">Gửi lời chúc yêu thương đến Cô</p>
+                        <p class="text-xs text-rose-200/80">Thêm lời chúc, thả tim ❤️ hoặc bấm thùng rác 🗑️ để xóa trực tiếp tại đây!</p>
                     </div>
                     <button onclick="burstHearts()" class="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-lg transition flex items-center gap-2">
                         <i class="fa-solid fa-heart text-amber-300"></i> Bắn Ngàn Trái Tim
@@ -264,7 +299,7 @@
 
     <!-- SCRIPT XỬ LÝ TOÀN BỘ -->
     <script>
-        // --- CẤU HÌNH FIREBASE (Dán key của bạn vào đây nếu muốn đồng bộ online nhiều máy) ---
+        // --- CẤU HÌNH FIREBASE ---
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
             authDomain: "YOUR_AUTH_DOMAIN",
@@ -532,7 +567,7 @@
                     </p>
 
                     <div class="flex items-center justify-between pt-2 border-t border-white/10">
-                        <span class="text-[10px] text-rose-200/60 italic">9A1 Lưu Bút</span>
+                        <span class="text-[10px] text-rose-200/60 italic">Tập thể 9A1</span>
                         <button onclick="likeWish('${item.id}', ${item.likes || 0})" class="bg-rose-500/30 hover:bg-rose-500/60 border border-rose-400/40 text-white px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition active:scale-95 shadow">
                             <i class="fa-solid fa-heart text-rose-400 animate-pulse text-sm"></i> 
                             <span>Thả Tim</span> 
