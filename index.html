@@ -394,10 +394,10 @@
 
         // --- CẤU HÌNH FIREBASE VÀ DỮ LIỆU BẮT ĐẦU ---
         const initialWishes = [
-            { id: "default_1", name: "Vũ Quang Nguyên (Lớp Trưởng)", wish: "Chúc Cô Mỹ Thắm 20/10 luôn xinh đẹp và bao dung cho lũ học trò 9A1 hay nghịch ngợm ạ!", color: "from-amber-500/30 to-rose-500/20", likes: 39 },
-            { id: "default_2", name: "Bảo Nhi", wish: "Kính chúc Cô Mỹ Thắm thật nhiều sức khỏe, luôn vui vẻ mỗi khi bước vào lớp 9A1!", color: "from-rose-500/30 to-pink-500/20", likes: 24 },
-            { id: "default_3", name: "Huy Khánh", wish: "Cảm ơn Cô Mỹ Thắm đã đồng hành cùng 9A1 qua đợt ôn thi vất vả. Yêu Cô nhiều!", color: "from-purple-500/30 to-pink-500/20", likes: 13 },
-            { id: "default_4", name: "Võ Đức Khanh", wish: "Chúc Cô Mỹ Thắm ngày 20/10 luôn tươi trẻ, luôn nở nụ cười rạng rỡ trên môi!", color: "from-emerald-500/30 to-teal-500/20", likes: 18 }
+            { name: "Vũ Quang Nguyên (Lớp Trưởng)", wish: "Chúc Cô Mỹ Thắm 20/10 luôn xinh đẹp và bao dung cho lũ học trò 9A1 hay nghịch ngợm ạ!", color: "from-amber-500/30 to-rose-500/20", likes: 39 },
+            { name: "Bảo Nhi", wish: "Kính chúc Cô Mỹ Thắm thật nhiều sức khỏe, luôn vui vẻ mỗi khi bước vào lớp 9A1!", color: "from-rose-500/30 to-pink-500/20", likes: 24 },
+            { name: "Huy Khánh", wish: "Cảm ơn Cô Mỹ Thắm đã đồng hành cùng 9A1 qua đợt ôn thi vất vả. Yêu Cô nhiều!", color: "from-purple-500/30 to-pink-500/20", likes: 13 },
+            { name: "Võ Đức Khanh", wish: "Chúc Cô Mỹ Thắm ngày 20/10 luôn tươi trẻ, luôn nở nụ cười rạng rỡ trên môi!", color: "from-emerald-500/30 to-teal-500/20", likes: 18 }
         ];
 
         const firebaseConfig = {
@@ -427,10 +427,9 @@
             localStorage.setItem('wishes_9A1', JSON.stringify(initialWishes));
         }
 
-        // --- 1. MẬT KHẨU (ĐÃ TỐI ƯU CHỐNG LỖI GÕ PHÍM TRÊN ĐT) ---
+        // --- 1. MẬT KHẨU ---
         function checkPassword(e) {
             e.preventDefault();
-            // Lấy giá trị, loại bỏ khoảng trắng thừa và đưa về chữ thường
             const inputPass = document.getElementById('site-password').value.trim().toLowerCase();
             const correctPassword = "9a1";
 
@@ -598,7 +597,7 @@
             }
         }
 
-        // --- 5. LƯU BÚT REALTIME & LOCALSTORAGE ---
+        // --- 5. LƯU BÚT REALTIME & LOCALSTORAGE (DÙNG INDEX AN TOÀN 100%) ---
         function addStudentWish(e) {
             e.preventDefault();
             const nameInput = document.getElementById('student-name');
@@ -624,7 +623,6 @@
                     db.ref('wishes_9A1').push(newWish);
                 } else {
                     let localWishes = JSON.parse(localStorage.getItem('wishes_9A1') || '[]');
-                    newWish.id = 'local_' + Date.now();
                     localWishes.unshift(newWish);
                     localStorage.setItem('wishes_9A1', JSON.stringify(localWishes));
                     loadWishes();
@@ -640,15 +638,15 @@
             if (useFirebase && db) {
                 db.ref('wishes_9A1').on('value', (snapshot) => {
                     const data = snapshot.val();
-                    renderWishWall(data ? Object.keys(data).map(key => ({ id: key, ...data[key] })).reverse() : []);
+                    renderWishWall(data ? Object.keys(data).map(key => ({ firebaseId: key, ...data[key] })).reverse() : [], true);
                 });
             } else {
                 const localWishes = JSON.parse(localStorage.getItem('wishes_9A1') || '[]');
-                renderWishWall(localWishes);
+                renderWishWall(localWishes, false);
             }
         }
 
-        function renderWishWall(wishesArray) {
+        function renderWishWall(wishesArray, isFirebase) {
             const wall = document.getElementById('wish-wall');
             if (!wall) return;
 
@@ -657,9 +655,13 @@
                 return;
             }
 
-            wall.innerHTML = wishesArray.map(item => `
+            wall.innerHTML = wishesArray.map((item, index) => {
+                const deleteCall = isFirebase ? `deleteFirebaseWish('${item.firebaseId}')` : `deleteLocalWish(${index})`;
+                const likeCall = isFirebase ? `likeFirebaseWish('${item.firebaseId}', ${item.likes || 0})` : `likeLocalWish(${index}, ${item.likes || 0})`;
+
+                return `
                 <div class="bg-gradient-to-br ${item.color} border border-white/20 p-4 rounded-2xl shadow-lg backdrop-blur-sm transition hover:scale-[1.02] relative group">
-                    <button onclick="deleteWish('${item.id}')" class="absolute top-3 right-3 text-rose-200/50 hover:text-white bg-black/40 hover:bg-rose-600 w-7 h-7 rounded-full flex items-center justify-center transition text-xs shadow-md z-10" title="Xóa lời chúc">
+                    <button onclick="${deleteCall}" class="absolute top-3 right-3 text-rose-200/50 hover:text-white bg-black/40 hover:bg-rose-600 w-7 h-7 rounded-full flex items-center justify-center transition text-xs shadow-md z-10" title="Xóa lời chúc">
                         <i class="fa-solid fa-trash-can"></i>
                     </button>
 
@@ -674,43 +676,43 @@
 
                     <div class="flex items-center justify-between pt-2 border-t border-white/10">
                         <span class="text-[10px] text-rose-200/60 italic">Tập thể 9A1</span>
-                        <button onclick="likeWish('${item.id}', ${item.likes || 0})" class="bg-rose-500/30 hover:bg-rose-500/60 border border-rose-400/40 text-white px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition active:scale-95 shadow">
+                        <button onclick="${likeCall}" class="bg-rose-500/30 hover:bg-rose-500/60 border border-rose-400/40 text-white px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition active:scale-95 shadow">
                             <i class="fa-solid fa-heart text-rose-400 animate-pulse text-sm"></i> 
                             <span>Thả Tim</span> 
                             <span class="bg-black/40 px-2 py-0.5 rounded-full text-[11px] text-amber-200 font-bold">${item.likes || 0}</span>
                         </button>
                     </div>
                 </div>
-            `).join('');
+            `;
+            }).join('');
         }
 
-        function deleteWish(id) {
+        function deleteLocalWish(index) {
             if (confirm("Bạn có chắc chắn muốn xóa lời chúc này không?")) {
-                if (useFirebase && db && !id.startsWith('default_') && !id.startsWith('local_')) {
-                    db.ref('wishes_9A1/' + id).remove();
-                } else {
-                    let localWishes = JSON.parse(localStorage.getItem('wishes_9A1') || '[]');
-                    localWishes = localWishes.filter(item => String(item.id) !== String(id));
-                    localStorage.setItem('wishes_9A1', JSON.stringify(localWishes));
-                    loadWishes();
-                }
-            }
-        }
-
-        function likeWish(id, currentLikes) {
-            if (useFirebase && db && !id.startsWith('default_') && !id.startsWith('local_')) {
-                db.ref('wishes_9A1/' + id).update({ likes: currentLikes + 1 });
-            } else {
                 let localWishes = JSON.parse(localStorage.getItem('wishes_9A1') || '[]');
-                localWishes = localWishes.map(item => {
-                    if (String(item.id) === String(id)) {
-                        item.likes = (item.likes || 0) + 1;
-                    }
-                    return item;
-                });
+                localWishes.splice(index, 1);
                 localStorage.setItem('wishes_9A1', JSON.stringify(localWishes));
                 loadWishes();
             }
+        }
+
+        function likeLocalWish(index, currentLikes) {
+            let localWishes = JSON.parse(localStorage.getItem('wishes_9A1') || '[]');
+            if (localWishes[index]) {
+                localWishes[index].likes = (localWishes[index].likes || 0) + 1;
+                localStorage.setItem('wishes_9A1', JSON.stringify(localWishes));
+                loadWishes();
+            }
+        }
+
+        function deleteFirebaseWish(firebaseId) {
+            if (confirm("Bạn có chắc chắn muốn xóa lời chúc này không?")) {
+                db.ref('wishes_9A1/' + firebaseId).remove();
+            }
+        }
+
+        function likeFirebaseWish(firebaseId, currentLikes) {
+            db.ref('wishes_9A1/' + firebaseId).update({ likes: currentLikes + 1 });
         }
     </script>
 </body>
