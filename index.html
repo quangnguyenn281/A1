@@ -423,15 +423,15 @@
             console.log("Dùng LocalStorage dự phòng.");
         }
 
-        // Khởi tạo nếu chưa từng lưu
         if (localStorage.getItem('wishes_9A1') === null) {
             localStorage.setItem('wishes_9A1', JSON.stringify(initialWishes));
         }
 
-        // --- 1. MẬT KHẨU ---
+        // --- 1. MẬT KHẨU (ĐÃ TỐI ƯU CHỐNG LỖI GÕ PHÍM TRÊN ĐT) ---
         function checkPassword(e) {
             e.preventDefault();
-            const inputPass = document.getElementById('site-password').value;
+            // Lấy giá trị, loại bỏ khoảng trắng thừa và đưa về chữ thường
+            const inputPass = document.getElementById('site-password').value.trim().toLowerCase();
             const correctPassword = "9a1";
 
             if (inputPass === correctPassword) {
@@ -684,7 +684,6 @@
             `).join('');
         }
 
-        // --- HÀM XÓA ĐÃ ĐƯỢC CẢI TIẾN LẠI HOÀN TOÀN ---
         function deleteWish(id) {
             if (confirm("Bạn có chắc chắn muốn xóa lời chúc này không?")) {
                 if (useFirebase && db && !id.startsWith('default_') && !id.startsWith('local_')) {
