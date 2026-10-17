@@ -216,7 +216,7 @@
                 </button>
             </div>
 
-            <!-- === 2 THẺ TÂM TƯ (BỔ SUNG THEO YÊU CẦU) === -->
+            <!-- 2 THẺ TÂM TƯ -->
             <section class="w-full glass-card rounded-3xl p-6 sm:p-8 mb-8">
                 <div class="flex items-center gap-3 mb-6 pb-4 border-b border-rose-300/20">
                     <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-rose-500 to-amber-300 flex items-center justify-center shadow-lg">
@@ -251,7 +251,7 @@
                 </div>
             </section>
 
-            <!-- Tường Lưu Bút -->
+            <!-- TƯỜNG LƯU BÚT ĐẦY ĐỦ -->
             <section class="w-full glass-card rounded-3xl p-4 sm:p-8 mb-12">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-rose-300/20">
                     <div>
@@ -281,7 +281,7 @@
 
                 <!-- Lưới hiển thị Lưu Bút -->
                 <div id="wish-wall" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Nội dung lời chúc -->
+                    <!-- Được tự động render lời chúc từ JS -->
                 </div>
             </section>
 
@@ -299,6 +299,18 @@
 
     <!-- SCRIPT XỬ LÝ TOÀN BỘ -->
     <script>
+        // --- KHO LỜI CHÚC MẶC ĐỊNH MỞ RỘNG (NHIỀU LỜI CHÚC HAY DÀNH CHO LỚP 9A1) ---
+        const initialWishes = [
+            { id: "default_1", name: "Vũ Quang Nguyên (Lớp Trưởng)", wish: "Chúc Cô Mỹ Thắm 20/10 luôn xinh đẹp và bao dung cho lũ học trò 9A1 hay nghịch ngợm ạ!", color: "from-amber-500/30 to-rose-500/20", likes: 39 },
+            { id: "default_2", name: "Bảo Nhi", wish: "Kính chúc Cô Mỹ Thắm thật nhiều sức khỏe, luôn vui vẻ mỗi khi bước vào lớp 9A1!", color: "from-rose-500/30 to-pink-500/20", likes: 24 },
+            { id: "default_3", name: "Huy Khánh", wish: "Cảm ơn Cô Mỹ Thắm đã đồng hành cùng 9A1 qua đợt ôn thi vất vả. Yêu Cô nhiều!", color: "from-purple-500/30 to-pink-500/20", likes: 13 },
+            { id: "default_4", name: "Võ Đức Khanh", wish: "Chúc Cô Mỹ Thắm ngày 20/10 luôn tươi trẻ, luôn nở nụ cười rạng rỡ trên môi!", color: "from-emerald-500/30 to-teal-500/20", likes: 18 },
+            { id: "default_5", name: "Minh Anh", wish: "Cảm ơn Cô vì những bài học hay và sự kiên nhẫn dành cho bọn con. Chúc Cô 20/10 ngập tràn hạnh phúc!", color: "from-rose-500/30 to-amber-500/20", likes: 31 },
+            { id: "default_6", name: "Gia Bảo", wish: "Kính chúc Cô luôn giữ vững ngọn lửa nhiệt huyết, chúc Cô có một ngày 20/10 thật tuyệt vời bên gia đình!", color: "from-purple-500/30 to-rose-500/20", likes: 15 },
+            { id: "default_7", name: "Phương Thảo", wish: "Lớp 9A1 may mắn vì có Cô! Chúc Cô ngày Phụ Nữ Việt Nam nhận được thật nhiều hoa và quà ạ!", color: "from-amber-500/30 to-pink-500/20", likes: 27 },
+            { id: "default_8", name: "Tập thể 9A1", wish: "Hứa với Cô 9A1 sẽ gặt hái thành công rực rỡ trong kỳ thi cuối cấp quan trọng sắp tới!", color: "from-emerald-500/30 to-rose-500/20", likes: 50 }
+        ];
+
         // --- CẤU HÌNH FIREBASE ---
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
@@ -320,7 +332,12 @@
                 useFirebase = true;
             }
         } catch (e) {
-            console.log("Dùng LocalStorage dự phòng trên thiết bị.");
+            console.log("Dùng LocalStorage dự phòng.");
+        }
+
+        // Khởi tạo dữ liệu ban đầu vào LocalStorage nếu trống
+        if (!localStorage.getItem('wishes_9A1')) {
+            localStorage.setItem('wishes_9A1', JSON.stringify(initialWishes));
         }
 
         // --- 1. MẬT KHẨU ---
@@ -492,7 +509,7 @@
             }
         }
 
-        // --- 5. LƯU BÚT (HỖ TRỢ CẢ FIREBASE & LOCALSTORAGE) ---
+        // --- 5. LƯU BÚT REALTIME & LOCALSTORAGE ---
         function addStudentWish(e) {
             e.preventDefault();
             const nameInput = document.getElementById('student-name');
@@ -519,7 +536,7 @@
                 } else {
                     let localWishes = JSON.parse(localStorage.getItem('wishes_9A1') || '[]');
                     newWish.id = 'local_' + Date.now();
-                    localWishes.push(newWish);
+                    localWishes.unshift(newWish);
                     localStorage.setItem('wishes_9A1', JSON.stringify(localWishes));
                     loadWishes();
                 }
@@ -538,7 +555,7 @@
                 });
             } else {
                 const localWishes = JSON.parse(localStorage.getItem('wishes_9A1') || '[]');
-                renderWishWall(localWishes.reverse());
+                renderWishWall(localWishes);
             }
         }
 
@@ -580,7 +597,7 @@
 
         function deleteWish(id) {
             if (confirm("Bạn có chắc chắn muốn xóa lời chúc này không?")) {
-                if (useFirebase && db && !id.startsWith('local_')) {
+                if (useFirebase && db && !id.startsWith('default_') && !id.startsWith('local_')) {
                     db.ref('wishes_9A1/' + id).remove();
                 } else {
                     let localWishes = JSON.parse(localStorage.getItem('wishes_9A1') || '[]');
@@ -592,7 +609,7 @@
         }
 
         function likeWish(id, currentLikes) {
-            if (useFirebase && db && !id.startsWith('local_')) {
+            if (useFirebase && db && !id.startsWith('default_') && !id.startsWith('local_')) {
                 db.ref('wishes_9A1/' + id).update({ likes: currentLikes + 1 });
             } else {
                 let localWishes = JSON.parse(localStorage.getItem('wishes_9A1') || '[]');
