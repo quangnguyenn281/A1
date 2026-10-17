@@ -537,3 +537,182 @@
             const btnIcon = document.getElementById('audio-icon');
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if (audioCtx.state === 'suspended') audioCtx.resume();
+            if (!isPlaying) {
+                isPlaying = true;
+                btnText.textContent = "Tắt Nhạc";
+                btnIcon.className = "fa-solid fa-volume-high text-amber-300 animate-bounce";
+            } else {
+                isPlaying = false;
+                btnText.textContent = "Phát Nhạc";
+                btnIcon.className = "fa-solid fa-music text-rose-400";
+            }
+        }
+
+        function triggerFireworks() {
+            confetti({ particleCount: 70, spread: 70, origin: { y: 0.6, x: 0.2 }, colors: ['#f43f5e', '#fbbf24', '#ffffff'] });
+            confetti({ particleCount: 70, spread: 70, origin: { y: 0.6, x: 0.8 }, colors: ['#f43f5e', '#fbbf24', '#ffffff'] });
+        }
+
+        function burstHearts() {
+            confetti({ spread: 360, ticks: 100, gravity: 0, decay: 0.94, startVelocity: 30, shapes: ['heart'], colors: ['#FF1493', '#FF69B4', '#FFC0CB'] });
+        }
+
+        // --- 4. 3D ENVELOPE & TYPEWRITER ---
+        let isCardOpen = false;
+        const mainCardText = "Kính chúc Cô Mỹ Thắm luôn tràn đầy sức khỏe, mãi xinh đẹp, trẻ trung và cùng tập thể 9A1 gặt hái thành công rực rỡ trong năm học cuối cấp quan trọng này!";
+        let typewriterIndex = 0, isTyping = false;
+
+        function runTypewriter() {
+            const el = document.getElementById('typewriter-text');
+            if (typewriterIndex < mainCardText.length) {
+                el.innerHTML += mainCardText.charAt(typewriterIndex);
+                typewriterIndex++;
+                setTimeout(runTypewriter, 35);
+            } else {
+                isTyping = false;
+            }
+        }
+
+        function toggleEnvelope() {
+            const env = document.getElementById('envelope');
+            const seal = document.getElementById('seal');
+            const btnText = document.getElementById('open-btn-text');
+
+            if (!isCardOpen) {
+                env.classList.add('open');
+                seal.style.opacity = '0';
+                seal.style.pointerEvents = 'none';
+                btnText.textContent = "Gấp Thiệp Lại";
+                isCardOpen = true;
+                triggerFireworks();
+                if (!isTyping && typewriterIndex === 0) {
+                    isTyping = true;
+                    setTimeout(runTypewriter, 700);
+                }
+            } else {
+                env.classList.remove('open');
+                seal.style.opacity = '1';
+                seal.style.pointerEvents = 'auto';
+                btnText.textContent = "Mở Thiệp Chúc Mừng 3D";
+                isCardOpen = false;
+            }
+        }
+
+        // --- 5. LƯU BÚT REALTIME & LOCALSTORAGE ---
+        function addStudentWish(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('student-name');
+            const wishInput = document.getElementById('student-wish');
+
+            if (nameInput.value.trim() && wishInput.value.trim()) {
+                const colors = [
+                    "from-rose-500/30 to-pink-500/20",
+                    "from-amber-500/30 to-rose-500/20",
+                    "from-purple-500/30 to-pink-500/20",
+                    "from-emerald-500/30 to-teal-500/20"
+                ];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+                const newWish = {
+                    name: nameInput.value.trim(),
+                    wish: wishInput.value.trim(),
+                    color: randomColor,
+                    likes: 0
+                };
+
+                if (useFirebase && db) {
+                    db.ref('wishes_9A1').push(newWish);
+                } else {
+                    let localWishes = JSON.parse(localStorage.getItem('wishes_9A1') || '[]');
+                    newWish.id = 'local_' + Date.now();
+                    localWishes.unshift(newWish);
+                    localStorage.setItem('wishes_9A1', JSON.stringify(localWishes));
+                    loadWishes();
+                }
+
+                burstHearts();
+                nameInput.value = '';
+                wishInput.value = '';
+            }
+        }
+
+        function loadWishes() {
+            if (useFirebase && db) {
+                db.ref('wishes_9A1').on('value', (snapshot) => {
+                    const data = snapshot.val();
+                    renderWishWall(data ? Object.keys(data).map(key => ({ id: key, ...data[key] })).reverse() : []);
+                });
+            } else {
+                const localWishes = JSON.parse(localStorage.getItem('wishes_9A1') || '[]');
+                renderWishWall(localWishes);
+            }
+        }
+
+        function renderWishWall(wishesArray) {
+            const wall = document.getElementById('wish-wall');
+            if (!wall) return;
+
+            if (wishesArray.length === 0) {
+                wall.innerHTML = '<p class="text-center col-span-full text-rose-200/70 text-sm">Chưa có lời chúc nào. Hãy là người đầu tiên gửi lời chúc đến Cô!</p>';
+                return;
+            }
+
+            wall.innerHTML = wishesArray.map(item => `
+                <div class="bg-gradient-to-br ${item.color} border border-white/20 p-4 rounded-2xl shadow-lg backdrop-blur-sm transition hover:scale-[1.02] relative group">
+                    <button onclick="deleteWish('${item.id}')" class="absolute top-3 right-3 text-rose-200/50 hover:text-white bg-black/40 hover:bg-rose-600 w-7 h-7 rounded-full flex items-center justify-center transition text-xs shadow-md z-10" title="Xóa lời chúc">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+
+                    <div class="flex items-center justify-between mb-2 pr-8">
+                        <span class="font-bold text-sm text-amber-200 flex items-center gap-1.5">
+                            <i class="fa-solid fa-user-graduate text-xs text-rose-300"></i> ${item.name}
+                        </span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-rose-100/90 leading-relaxed mb-4">
+                        "${item.wish}"
+                    </p>
+
+                    <div class="flex items-center justify-between pt-2 border-t border-white/10">
+                        <span class="text-[10px] text-rose-200/60 italic">Tập thể 9A1</span>
+                        <button onclick="likeWish('${item.id}', ${item.likes || 0})" class="bg-rose-500/30 hover:bg-rose-500/60 border border-rose-400/40 text-white px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition active:scale-95 shadow">
+                            <i class="fa-solid fa-heart text-rose-400 animate-pulse text-sm"></i> 
+                            <span>Thả Tim</span> 
+                            <span class="bg-black/40 px-2 py-0.5 rounded-full text-[11px] text-amber-200 font-bold">${item.likes || 0}</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- HÀM XÓA ĐÃ ĐƯỢC CẢI TIẾN LẠI HOÀN TOÀN ---
+        function deleteWish(id) {
+            if (confirm("Bạn có chắc chắn muốn xóa lời chúc này không?")) {
+                if (useFirebase && db && !id.startsWith('default_') && !id.startsWith('local_')) {
+                    db.ref('wishes_9A1/' + id).remove();
+                } else {
+                    let localWishes = JSON.parse(localStorage.getItem('wishes_9A1') || '[]');
+                    localWishes = localWishes.filter(item => String(item.id) !== String(id));
+                    localStorage.setItem('wishes_9A1', JSON.stringify(localWishes));
+                    loadWishes();
+                }
+            }
+        }
+
+        function likeWish(id, currentLikes) {
+            if (useFirebase && db && !id.startsWith('default_') && !id.startsWith('local_')) {
+                db.ref('wishes_9A1/' + id).update({ likes: currentLikes + 1 });
+            } else {
+                let localWishes = JSON.parse(localStorage.getItem('wishes_9A1') || '[]');
+                localWishes = localWishes.map(item => {
+                    if (String(item.id) === String(id)) {
+                        item.likes = (item.likes || 0) + 1;
+                    }
+                    return item;
+                });
+                localStorage.setItem('wishes_9A1', JSON.stringify(localWishes));
+                loadWishes();
+            }
+        }
+    </script>
+</body>
+</html>
