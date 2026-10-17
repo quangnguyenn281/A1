@@ -142,7 +142,6 @@
             border: 2px dashed #f43f5e;
         }
 
-        /* Open state for envelope */
         .envelope-box.open .flap {
             transform: rotateX(180deg);
             z-index: 1;
@@ -159,12 +158,10 @@
             }
         }
 
-        /* Shining text effect */
         .text-glow-gold {
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.4);
         }
 
-        /* Animated badge pulsing */
         @keyframes pulseGlow {
             0%, 100% { box-shadow: 0 0 15px rgba(244, 63, 94, 0.6); }
             50% { box-shadow: 0 0 30px rgba(251, 113, 133, 0.9), 0 0 45px rgba(255, 215, 0, 0.6); }
@@ -174,7 +171,6 @@
             animation: pulseGlow 3s infinite;
         }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -185,14 +181,11 @@
             background: #f43f5e;
             border-radius: 4px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #fb7185;
-        }
     </style>
 </head>
 <body class="relative flex flex-col min-h-screen text-slate-100 selection:bg-rose-500 selection:text-white">
 
-    <!-- KHUNG NHẬP MẬT KHẨU BẢO VỆ TRANG WEB -->
+    <!-- KHUNG NHẬP MẬT KHẨU -->
     <div id="password-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-[#2b081a] via-[#4a0e2e] to-[#31071d] p-4">
         <div class="glass-card p-6 sm:p-8 rounded-3xl max-w-md w-full text-center shadow-2xl border border-rose-300/30">
             <div class="w-16 h-16 bg-gradient-to-tr from-rose-500 to-amber-300 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-rose-500/30">
@@ -211,13 +204,13 @@
         </div>
     </div>
 
-    <!-- TOÀN BỘ NỘI DUNG WEB CHÍNH (ẨN ĐẾN KHỔI MỞ KHÓA) -->
+    <!-- NỘI DUNG WEB CHÍNH -->
     <div id="main-content" class="hidden flex-col min-h-screen">
 
-        <!-- Canvas dành cho hiệu ứng hoa rơi & lấp lánh (Background Particles) -->
+        <!-- Canvas Hiệu Ứng -->
         <canvas id="particleCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
 
-        <!-- Header Navigation Bar -->
+        <!-- Header -->
         <header class="relative z-20 w-full max-w-7xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center gap-3">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-rose-500 to-amber-300 flex items-center justify-center shadow-lg shadow-rose-500/30">
@@ -229,7 +222,6 @@
                 </div>
             </div>
 
-            <!-- Các Nút Thao Tác Nhanh -->
             <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
                 <button onclick="triggerFireworks()" class="flex items-center gap-2 bg-gradient-to-r from-amber-500 to-rose-500 hover:from-amber-600 hover:to-rose-600 text-white text-xs sm:text-sm font-semibold px-3 sm:px-4 py-2 rounded-full shadow-lg shadow-amber-500/25 transition-all transform hover:scale-105 active:scale-95">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
@@ -246,7 +238,7 @@
         <!-- Main Content -->
         <main class="relative z-10 flex-grow flex flex-col items-center px-4 py-6 max-w-5xl mx-auto w-full">
 
-            <!-- Banner Chúc Mừng Lớn -->
+            <!-- Banner -->
             <div class="text-center my-4 sm:my-6 max-w-3xl">
                 <div class="inline-flex items-center gap-2 bg-gradient-to-r from-rose-500/20 via-amber-500/20 to-rose-500/20 border border-rose-400/40 px-4 py-1.5 rounded-full text-xs sm:text-sm text-rose-200 font-semibold mb-4 tracking-wider uppercase backdrop-blur-md badge-glow">
                     <i class="fa-solid fa-star text-amber-300 animate-spin" style="animation-duration: 8s;"></i>
@@ -263,54 +255,40 @@
                 </p>
             </div>
 
-            <!-- Bao thư 3D Tương tác -->
+            <!-- Bao thư 3D -->
             <div class="envelope-container my-8 sm:my-12 flex justify-center w-full">
                 <div id="envelope" class="envelope-box" onclick="toggleEnvelope()">
-                    <!-- Nắp thư -->
                     <div class="flap"></div>
-
-                    <!-- Tấm thiệp bên trong -->
                     <div class="inner-card">
                         <div class="flex items-center justify-center gap-1 text-rose-500 text-xs font-semibold uppercase tracking-widest mb-1">
                             <i class="fa-solid fa-crown text-amber-500"></i> Lớp 9A1 Kính Tặng <i class="fa-solid fa-crown text-amber-500"></i>
                         </div>
-
                         <h2 class="font-serif-title font-bold text-xl sm:text-2xl text-rose-900 mb-1">
                             Cô Mỹ Thắm Kính Yêu!
                         </h2>
-
                         <p id="typewriter-text" class="font-handwriting text-base sm:text-xl text-rose-950 leading-relaxed min-h-[70px] flex items-center justify-center px-2">
-                            <!-- Hiệu ứng gõ chữ sẽ chạy ở đây -->
                         </p>
-
                         <div class="mt-2 flex items-center gap-2 text-xs text-rose-600 font-bold bg-rose-100/80 px-3 py-1 rounded-full border border-rose-300">
                             <i class="fa-solid fa-heart text-rose-500"></i> 20 / 10 / 2026 - Mãi Yêu Cô!
                         </div>
                     </div>
-
-                    <!-- Thân bao thư -->
                     <div class="pocket"></div>
-
-                    <!-- Con Dấu Tim Niêm Phong -->
                     <div id="seal" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 bg-gradient-to-br from-amber-300 to-amber-500 text-rose-900 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-2xl border-2 border-white transition-all duration-300 hover:scale-110">
                         <i class="fa-solid fa-heart text-2xl text-rose-700 animate-pulse"></i>
                     </div>
                 </div>
             </div>
 
-            <!-- Nút Mở / Đóng Thiệp -->
+            <!-- Nút Mở Thiệp -->
             <div class="text-center mb-16">
-                <button id="open-btn" onclick="toggleEnvelope()" class="bg-gradient-to-r from-rose-500 via-pink-500 to-amber-500 hover:from-rose-600 hover:to-amber-600 text-white font-bold px-8 py-3.5 rounded-full shadow-2xl shadow-rose-500/40 hover:shadow-rose-500/60 transition-all transform hover:-translate-y-1 active:translate-y-0 text-base sm:text-lg flex items-center gap-3 mx-auto">
+                <button id="open-btn" onclick="toggleEnvelope()" class="bg-gradient-to-r from-rose-500 via-pink-500 to-amber-500 hover:from-rose-600 hover:to-amber-600 text-white font-bold px-8 py-3.5 rounded-full shadow-2xl shadow-rose-500/40 transition-all transform hover:-translate-y-1 text-base sm:text-lg flex items-center gap-3 mx-auto">
                     <i class="fa-solid fa-envelope-open-text text-xl"></i>
                     <span id="open-btn-text">Mở Thiệp Chúc Mừng 3D</span>
                 </button>
             </div>
 
-            <!-- Khung Lời Chúc Tình Cảm Từ Lớp 9A1 -->
+            <!-- Khung Lời Chúc -->
             <section class="w-full glass-card rounded-3xl p-6 sm:p-10 mb-12 relative overflow-hidden">
-                <div class="absolute -top-10 -right-10 w-40 h-40 bg-rose-500/20 rounded-full blur-3xl pointer-events-none"></div>
-                <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-amber-500/20 rounded-full blur-3xl pointer-events-none"></div>
-
                 <div class="flex items-center gap-3 mb-8 pb-4 border-b border-rose-300/20">
                     <div class="w-10 h-10 rounded-xl bg-rose-500/20 border border-rose-400/30 flex items-center justify-center text-rose-300 text-xl">
                         <i class="fa-solid fa-graduation-cap"></i>
@@ -324,108 +302,28 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <!-- Card 1 -->
-                    <div class="glass-gold-card p-5 rounded-2xl transition-all duration-300 hover:translate-y-[-4px]">
+                    <div class="glass-gold-card p-5 rounded-2xl">
                         <div class="flex items-start gap-3">
                             <span class="w-8 h-8 rounded-lg bg-amber-400/20 text-amber-300 font-bold flex items-center justify-center text-sm border border-amber-400/30 shrink-0">01</span>
                             <div>
-                                <h3 class="font-semibold text-amber-200 text-base mb-1.5 flex items-center gap-2">
-                                    Đồng Hành Tận Tụy
-                                    <i class="fa-solid fa-seedling text-emerald-400 text-xs"></i>
-                                </h3>
-                                <p class="text-xs sm:text-sm text-rose-100/90 leading-relaxed">
-                                    Năm học lớp 9 là chặng đường vô cùng quan trọng với đầy áp lực thi chuyển cấp. Cảm ơn Cô Mỹ Thắm đã luôn kiên nhẫn, yêu thương và truyền động lực cho tập thể 9A1 vượt qua mọi thử thách!
-                                </p>
+                                <h3 class="font-semibold text-amber-200 text-base mb-1.5">Đồng Hành Tận Tụy</h3>
+                                <p class="text-xs sm:text-sm text-rose-100/90 leading-relaxed">Năm học lớp 9 đầy áp lực, cảm ơn Cô Mỹ Thắm đã luôn kiên nhẫn, yêu thương và truyền động lực cho tập thể 9A1!</p>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Card 2 -->
-                    <div class="glass-gold-card p-5 rounded-2xl transition-all duration-300 hover:translate-y-[-4px]">
+                    <div class="glass-gold-card p-5 rounded-2xl">
                         <div class="flex items-start gap-3">
                             <span class="w-8 h-8 rounded-lg bg-rose-400/20 text-rose-300 font-bold flex items-center justify-center text-sm border border-rose-400/30 shrink-0">02</span>
                             <div>
-                                <h3 class="font-semibold text-rose-200 text-base mb-1.5 flex items-center gap-2">
-                                    Trẻ Trung & Hạnh Phúc
-                                    <i class="fa-solid fa-sun text-amber-400 text-xs"></i>
-                                </h3>
-                                <p class="text-xs sm:text-sm text-rose-100/90 leading-relaxed">
-                                    Nhân ngày Phụ nữ Việt Nam 20/10, kính chúc Cô Mỹ Thắm luôn luôn tươi trẻ, tràn đầy nhiệt huyết, nụ cười rạng rỡ trên môi và gặt hái thật nhiều niềm vui trong cuộc sống!
-                                </p>
+                                <h3 class="font-semibold text-rose-200 text-base mb-1.5">Trẻ Trung & Hạnh Phúc</h3>
+                                <p class="text-xs sm:text-sm text-rose-100/90 leading-relaxed">Kính chúc Cô luôn tươi trẻ, tràn đầy nhiệt huyết, nụ cười rạng rỡ và gặt hái thật nhiều niềm vui trong cuộc sống!</p>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Card 3 -->
-                    <div class="glass-gold-card p-5 rounded-2xl transition-all duration-300 hover:translate-y-[-4px]">
-                        <div class="flex items-start gap-3">
-                            <span class="w-8 h-8 rounded-lg bg-pink-400/20 text-pink-300 font-bold flex items-center justify-center text-sm border border-pink-400/30 shrink-0">03</span>
-                            <div>
-                                <h3 class="font-semibold text-pink-200 text-base mb-1.5 flex items-center gap-2">
-                                    Người Mẹ Thứ Hai
-                                    <i class="fa-solid fa-heart-pulse text-rose-400 text-xs"></i>
-                                </h3>
-                                <p class="text-xs sm:text-sm text-rose-100/90 leading-relaxed">
-                                    Với 9A1, Cô không chỉ là người dạy kiến thức mà còn là người mẹ dịu dàng lắng nghe, uốn nắn từng nết người. Tụi em luôn tự hào và biết ơn khi được làm học trò của Cô Mỹ Thắm!
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 4 -->
-                    <div class="glass-gold-card p-5 rounded-2xl transition-all duration-300 hover:translate-y-[-4px]">
-                        <div class="flex items-start gap-3">
-                            <span class="w-8 h-8 rounded-lg bg-amber-400/20 text-amber-300 font-bold flex items-center justify-center text-sm border border-amber-400/30 shrink-0">04</span>
-                            <div>
-                                <h3 class="font-semibold text-amber-200 text-base mb-1.5 flex items-center gap-2">
-                                    Hứa Cùng Cô Tỏa Sáng
-                                    <i class="fa-solid fa-trophy text-amber-300 text-xs"></i>
-                                </h3>
-                                <p class="text-xs sm:text-sm text-rose-100/90 leading-relaxed">
-                                    Tập thể 9A1 xin hứa sẽ luôn chăm ngoan, học tốt, đoàn kết và đỗ đạt cao trong kỳ thi sắp tới để không phụ công ơn dạy dỗ bao la của Cô Mỹ Thắm!
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Câu thơ trích dẫn -->
-                <div class="mt-8 p-6 rounded-2xl bg-gradient-to-r from-rose-900/40 via-purple-900/40 to-rose-900/40 border border-rose-400/30 text-center relative">
-                    <i class="fa-solid fa-quote-left text-3xl text-amber-300/30 absolute top-3 left-4"></i>
-                    <p class="font-handwriting text-2xl sm:text-3xl text-amber-200 mb-2">
-                        "Ơn dạy dỗ cao hơn núi, nghĩa thầy cô sâu tựa biển khơi."
-                    </p>
-                    <p class="text-xs text-rose-300 font-medium tracking-widest uppercase">--- Lớp 9A1 Mãi Yêu Cô Mỹ Thắm ---</p>
                 </div>
             </section>
 
-            <!-- Thơ & Slider Lời Chúc Ngắn -->
-            <section class="w-full glass-card rounded-3xl p-6 sm:p-8 mb-12">
-                <div class="text-center mb-6">
-                    <span class="text-xs font-semibold uppercase tracking-wider text-rose-300 bg-rose-500/20 px-3 py-1 rounded-full border border-rose-400/30">
-                        Góc Thơ Tri Ân
-                    </span>
-                    <h3 class="font-serif-title text-2xl sm:text-3xl font-bold text-rose-100 mt-2">
-                        Dành Riêng Cho Cô Mỹ Thắm
-                    </h3>
-                </div>
-
-                <div id="wish-carousel" class="min-h-[140px] flex items-center justify-center text-center p-4">
-                    <!-- Nội dung carousel thay đổi bằng JS -->
-                </div>
-
-                <div class="flex justify-center items-center gap-3 mt-4">
-                    <button onclick="prevWish()" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 border border-rose-300/30 flex items-center justify-center text-rose-200 transition">
-                        <i class="fa-solid fa-chevron-left"></i>
-                    </button>
-                    <span id="wish-counter" class="text-xs text-rose-300 font-medium">1 / 3</span>
-                    <button onclick="nextWish()" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 border border-rose-300/30 flex items-center justify-center text-rose-200 transition">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </button>
-                </div>
-            </section>
-
-            <!-- Interactive Wish Wall: Tường Lời Chúc Trực Tiếp từ Học Sinh 9A1 -->
+            <!-- Tường Lưu Bút (Có Nút Thùng Rác Xóa & Thả Tim ❤️) -->
             <section class="w-full glass-card rounded-3xl p-6 sm:p-8 mb-12">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-rose-300/20">
                     <div>
@@ -433,29 +331,29 @@
                             <i class="fa-solid fa-comments text-rose-400"></i>
                             Góc Lưu Bút 9A1 Tặng Cô Mỹ Thắm
                         </h3>
-                        <p class="text-xs text-rose-200/80">Các bạn học sinh 9A1 gõ thêm lời chúc trực tiếp tại đây nhé!</p>
+                        <p class="text-xs text-rose-200/80">Thêm lời chúc, thả tim ❤️ hoặc bấm thùng rác để xóa trực tiếp tại đây!</p>
                     </div>
-                    <button onclick="burstHearts()" class="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-lg transition transform hover:scale-105 active:scale-95 flex items-center gap-2">
+                    <button onclick="burstHearts()" class="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-lg transition flex items-center gap-2">
                         <i class="fa-solid fa-heart text-amber-300"></i> Bắn Ngàn Trái Tim
                     </button>
                 </div>
 
-                <!-- Form Nhập Lời Chúc -->
-                <form id="wish-form" onsubmit="addStudentWish(event)" class="mb-8 bg-black/20 p-4 rounded-2xl border border-rose-300/20">
+                <!-- Form Nhập -->
+                <form onsubmit="addStudentWish(event)" class="mb-8 bg-black/20 p-4 rounded-2xl border border-rose-300/20">
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
-                        <input type="text" id="student-name" required placeholder="Tên học sinh (ví dụ: An 9A1)..." class="sm:col-span-1 bg-white/10 border border-rose-300/30 rounded-xl px-4 py-2.5 text-sm text-white placeholder-rose-200/50 focus:outline-none focus:border-rose-400">
-                        <input type="text" id="student-wish" required placeholder="Nhập lời chúc muốn gửi Cô Mỹ Thắm..." class="sm:col-span-2 bg-white/10 border border-rose-300/30 rounded-xl px-4 py-2.5 text-sm text-white placeholder-rose-200/50 focus:outline-none focus:border-rose-400">
+                        <input type="text" id="student-name" required placeholder="Tên học sinh..." class="sm:col-span-1 bg-white/10 border border-rose-300/30 rounded-xl px-4 py-2.5 text-sm text-white placeholder-rose-200/50 focus:outline-none">
+                        <input type="text" id="student-wish" required placeholder="Nhập lời chúc muốn gửi Cô..." class="sm:col-span-2 bg-white/10 border border-rose-300/30 rounded-xl px-4 py-2.5 text-sm text-white placeholder-rose-200/50 focus:outline-none">
                     </div>
                     <div class="flex justify-end">
-                        <button type="submit" class="bg-gradient-to-r from-amber-500 to-rose-500 text-white text-xs sm:text-sm font-semibold px-6 py-2.5 rounded-xl shadow-md hover:opacity-90 transition flex items-center gap-2">
+                        <button type="submit" class="bg-gradient-to-r from-amber-500 to-rose-500 text-white text-xs sm:text-sm font-semibold px-6 py-2.5 rounded-xl shadow-md transition flex items-center gap-2">
                             <i class="fa-solid fa-paper-plane"></i> Gửi Lời Chúc
                         </button>
                     </div>
                 </form>
 
-                <!-- Lưới hiển thị Sticky Notes / Cards -->
+                <!-- Lưới hiển thị Lưu Bút -->
                 <div id="wish-wall" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Sẽ được thêm bằng JS -->
+                    <!-- Được render bằng JavaScript -->
                 </div>
             </section>
 
@@ -471,7 +369,288 @@
         </footer>
     </div>
 
-    <!-- Nối file JavaScript bên ngoài vào đây -->
-    <script src="script.js"></script>
+    <!-- JAVASCRIPT GỘP TRỰC TIẾP TRONG HTML -->
+    <script>
+        // --- 1. MẬT KHẨU ---
+        function checkPassword(e) {
+            e.preventDefault();
+            const inputPass = document.getElementById('site-password').value;
+            const correctPassword = "9a1"; // Mật khẩu trang web
+
+            if (inputPass === correctPassword) {
+                document.getElementById('password-screen').style.display = 'none';
+                const mainContent = document.getElementById('main-content');
+                mainContent.classList.remove('hidden');
+                mainContent.classList.add('flex');
+                initParticles();
+            } else {
+                const errorMsg = document.getElementById('error-msg');
+                errorMsg.classList.remove('hidden');
+                document.getElementById('site-password').value = '';
+            }
+        }
+
+        // --- 2. CANVAS PARTICLES ---
+        let canvas, ctx, width, height;
+        let particles = [];
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = -20;
+                this.size = Math.random() * 12 + 8;
+                this.speedY = Math.random() * 1.5 + 0.8;
+                this.speedX = Math.random() * 1.5 - 0.75;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = (Math.random() - 0.5) * 2;
+                this.opacity = Math.random() * 0.7 + 0.3;
+                this.type = Math.random() > 0.4 ? 'petal' : (Math.random() > 0.5 ? 'heart' : 'star');
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += Math.sin(this.y / 30) + this.speedX;
+                this.rotation += this.rotationSpeed;
+                if (this.y > height + 20) this.reset();
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.globalAlpha = this.opacity;
+                if (this.type === 'petal') {
+                    ctx.fillStyle = '#fb7185';
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.bezierCurveTo(-this.size / 2, -this.size / 2, -this.size, this.size / 3, 0, this.size);
+                    ctx.bezierCurveTo(this.size, this.size / 3, this.size / 2, -this.size / 2, 0, 0);
+                    ctx.fill();
+                } else if (this.type === 'heart') {
+                    ctx.fillStyle = '#f43f5e';
+                    ctx.beginPath();
+                    let topCurveHeight = this.size * 0.3;
+                    ctx.moveTo(0, topCurveHeight);
+                    ctx.bezierCurveTo(0, 0, -this.size / 2, 0, -this.size / 2, topCurveHeight);
+                    ctx.bezierCurveTo(-this.size / 2, (this.size + topCurveHeight) / 2, 0, this.size, 0, this.size);
+                    ctx.bezierCurveTo(0, this.size, this.size / 2, (this.size + topCurveHeight) / 2, this.size / 2, topCurveHeight);
+                    ctx.bezierCurveTo(this.size / 2, 0, 0, 0, 0, topCurveHeight);
+                    ctx.fill();
+                } else {
+                    ctx.fillStyle = '#fde047';
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size / 3, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+        }
+
+        function initParticles() {
+            canvas = document.getElementById('particleCanvas');
+            if (!canvas) return;
+            ctx = canvas.getContext('2d');
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            window.addEventListener('resize', () => {
+                if (!canvas) return;
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+            particles = [];
+            for (let i = 0; i < 45; i++) {
+                const p = new Particle();
+                p.y = Math.random() * height;
+                particles.push(p);
+            }
+            animateParticles();
+        }
+
+        function animateParticles() {
+            if (!ctx) return;
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+
+        // --- 3. AUDIO ---
+        let audioCtx = null, isPlaying = false, timerId = null;
+        const musicalNotes = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25, 587.33, 659.25];
+        const songMelody = [{note: 4, duration: 0.6}, {note: 7, duration: 0.6}, {note: 9, duration: 0.8}, {note: 7, duration: 0.6}, {note: 4, duration: 0.6}, {note: 2, duration: 0.8}];
+        let noteIndex = 0;
+
+        function playMelodyNote() {
+            if (!isPlaying || !audioCtx) return;
+            const item = songMelody[noteIndex];
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(musicalNotes[item.note], audioCtx.currentTime);
+            gain.gain.setValueAtTime(0, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.06, audioCtx.currentTime + 0.1);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + item.duration);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + item.duration);
+            noteIndex = (noteIndex + 1) % songMelody.length;
+            timerId = setTimeout(playMelodyNote, item.duration * 850);
+        }
+
+        function toggleAudio() {
+            const btnText = document.getElementById('audio-text');
+            const btnIcon = document.getElementById('audio-icon');
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            if (!isPlaying) {
+                isPlaying = true;
+                playMelodyNote();
+                btnText.textContent = "Tắt Nhạc";
+                btnIcon.className = "fa-solid fa-volume-high text-amber-300 animate-bounce";
+            } else {
+                isPlaying = false;
+                clearTimeout(timerId);
+                btnText.textContent = "Phát Nhạc";
+                btnIcon.className = "fa-solid fa-music text-rose-400";
+            }
+        }
+
+        // --- 4. FIREWORKS & CONFETTI ---
+        function triggerFireworks() {
+            confetti({ particleCount: 80, spread: 70, origin: { y: 0.6, x: 0.2 }, colors: ['#f43f5e', '#fbbf24', '#ffffff'] });
+            confetti({ particleCount: 80, spread: 70, origin: { y: 0.6, x: 0.8 }, colors: ['#f43f5e', '#fbbf24', '#ffffff'] });
+        }
+
+        function burstHearts() {
+            confetti({ spread: 360, ticks: 100, gravity: 0, decay: 0.94, startVelocity: 30, shapes: ['heart'], colors: ['#FF1493', '#FF69B4', '#FFC0CB'] });
+        }
+
+        // --- 5. 3D ENVELOPE & TYPEWRITER ---
+        let isCardOpen = false;
+        const mainCardText = "Kính chúc Cô Mỹ Thắm luôn tràn đầy sức khỏe, mãi xinh đẹp, trẻ trung và cùng tập thể 9A1 gặt hái thành công rực rỡ trong năm học cuối cấp quan trọng này!";
+        let typewriterIndex = 0, isTyping = false;
+
+        function runTypewriter() {
+            const el = document.getElementById('typewriter-text');
+            if (typewriterIndex < mainCardText.length) {
+                el.innerHTML += mainCardText.charAt(typewriterIndex);
+                typewriterIndex++;
+                setTimeout(runTypewriter, 35);
+            } else {
+                isTyping = false;
+            }
+        }
+
+        function toggleEnvelope() {
+            const env = document.getElementById('envelope');
+            const seal = document.getElementById('seal');
+            const btnText = document.getElementById('open-btn-text');
+
+            if (!isCardOpen) {
+                env.classList.add('open');
+                seal.style.opacity = '0';
+                seal.style.pointerEvents = 'none';
+                btnText.textContent = "Gấp Thiệp Lại";
+                isCardOpen = true;
+                triggerFireworks();
+                if (!isPlaying) toggleAudio();
+                if (!isTyping && typewriterIndex === 0) {
+                    isTyping = true;
+                    setTimeout(runTypewriter, 700);
+                }
+            } else {
+                env.classList.remove('open');
+                seal.style.opacity = '1';
+                seal.style.pointerEvents = 'auto';
+                btnText.textContent = "Mở Thiệp Chúc Mừng 3D";
+                isCardOpen = false;
+            }
+        }
+
+        // --- 6. WISH WALL (THÊM, XÓA, THẢ TIM & LƯU LOCALSTORAGE) ---
+        let initialWishes = JSON.parse(localStorage.getItem('wishes_9A1')) || [
+            { name: "Vũ Quang Nguyên (Lớp Trưởng)", wish: "Chúc Cô Mỹ Thắm 20/10 luôn xinh đẹp và bao dung cho lũ học trò 9A1 hay nghịch ngợm ạ!", color: "from-rose-500/30 to-pink-500/20", likes: 5 },
+            { name: "Bảo Nhi", wish: "Kính chúc Cô Mỹ Thắm thật nhiều sức khỏe, luôn vui vẻ mỗi khi bước vào lớp 9A1!", color: "from-amber-500/30 to-rose-500/20", likes: 3 },
+            { name: "Huy Khánh", wish: "Cảm ơn Cô Mỹ Thắm đã đồng hành cùng 9A1 qua bao đợt ôn thi vất vả. Yêu Cô nhiều!", color: "from-purple-500/30 to-pink-500/20", likes: 4 }
+        ];
+
+        function renderWishWall() {
+            const wall = document.getElementById('wish-wall');
+            if (!wall) return;
+
+            wall.innerHTML = initialWishes.map((item, index) => `
+                <div class="bg-gradient-to-br ${item.color} border border-white/20 p-4 rounded-2xl shadow-lg backdrop-blur-sm transition hover:scale-[1.02] relative group">
+                    <!-- Nút Xóa Lời Chúc (Icon Thùng Rác góc trên bên phải) -->
+                    <button onclick="deleteWish(${index})" class="absolute top-3 right-3 text-rose-200/50 hover:text-white bg-black/30 hover:bg-rose-600 w-7 h-7 rounded-full flex items-center justify-center transition text-xs shadow" title="Xóa lời chúc">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+
+                    <div class="flex items-center justify-between mb-2 pr-8">
+                        <span class="font-bold text-sm text-amber-200 flex items-center gap-1.5">
+                            <i class="fa-solid fa-user-graduate text-xs text-rose-300"></i> ${item.name}
+                        </span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-rose-100/90 leading-relaxed mb-4">
+                        "${item.wish}"
+                    </p>
+
+                    <!-- Nút Thả Tim (Like) ở góc dưới bên phải card -->
+                    <div class="flex items-center justify-end gap-1">
+                        <button onclick="likeWish(${index})" class="text-rose-300 hover:text-white bg-black/20 hover:bg-rose-500/60 px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5 transition active:scale-90 shadow">
+                            <i class="fa-solid fa-heart text-rose-400"></i> <span>${item.likes || 0}</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addStudentWish(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('student-name');
+            const wishInput = document.getElementById('student-wish');
+
+            if (nameInput.value.trim() && wishInput.value.trim()) {
+                const colors = [
+                    "from-rose-500/30 to-pink-500/20",
+                    "from-amber-500/30 to-rose-500/20",
+                    "from-purple-500/30 to-pink-500/20",
+                    "from-emerald-500/30 to-teal-500/20"
+                ];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+                initialWishes.unshift({
+                    name: nameInput.value.trim(),
+                    wish: wishInput.value.trim(),
+                    color: randomColor,
+                    likes: 0
+                });
+
+                localStorage.setItem('wishes_9A1', JSON.stringify(initialWishes));
+                renderWishWall();
+                burstHearts();
+
+                nameInput.value = '';
+                wishInput.value = '';
+            }
+        }
+
+        // Hàm Xóa Lời Chúc
+        function deleteWish(index) {
+            if (confirm("Bạn có chắc chắn muốn xóa lời chúc này không?")) {
+                initialWishes.splice(index, 1);
+                localStorage.setItem('wishes_9A1', JSON.stringify(initialWishes));
+                renderWishWall();
+            }
+        }
+
+        // Hàm Thả Tim Lời Chúc
+        function likeWish(index) {
+            initialWishes[index].likes = (initialWishes[index].likes || 0) + 1;
+            localStorage.setItem('wishes_9A1', JSON.stringify(initialWishes));
+            renderWishWall();
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            renderWishWall();
+        });
+    </script>
 </body>
 </html>
