@@ -136,7 +136,7 @@
     <!-- NỘI DUNG WEB CHÍNH -->
     <div id="main-content" class="hidden flex-col min-h-screen">
 
-        <!-- Canvas Hiệu Ứng -->
+        <!-- Canvas Hiệu Ứng (Cánh hoa, Ngôi sao & Bong bóng trái tim bay lên) -->
         <canvas id="particleCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
 
         <!-- Header -->
@@ -392,7 +392,7 @@
             renderPoem();
         }
 
-        // --- CẤU HÌNH FIREBASE VÀ DỮ LIỆU BẮT ĐẦU ---
+        // --- CẤU HÌNH FIREBASE REALTIME ---
         const initialWishes = [
             { name: "Vũ Quang Nguyên (Lớp Trưởng)", wish: "Chúc Cô Mỹ Thắm 20/10 luôn xinh đẹp và bao dung cho lũ học trò 9A1 hay nghịch ngợm ạ!", color: "from-amber-500/30 to-rose-500/20", likes: 39 },
             { name: "Bảo Nhi", wish: "Kính chúc Cô Mỹ Thắm thật nhiều sức khỏe, luôn vui vẻ mỗi khi bước vào lớp 9A1!", color: "from-rose-500/30 to-pink-500/20", likes: 24 },
@@ -401,13 +401,13 @@
         ];
 
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            databaseURL: "YOUR_DATABASE_URL",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyCVLEQ2I-yP0RNdzxYVGkMd_IemPyxe31s",
+            authDomain: "trian9a1.firebaseapp.com",
+            databaseURL: "https://trian9a1-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "trian9a1",
+            storageBucket: "trian9a1.appspot.com",
+            messagingSenderId: "305432797670",
+            appId: "1:305432797670:web:3946ff8880efb6e3ab7627"
         };
 
         let db = null;
@@ -448,16 +448,16 @@
             }
         }
 
-        // --- 2. CANVAS PARTICLES ---
+        // --- 2. CANVAS PARTICLES (Cánh hoa, Ngôi sao & Bong bóng trái tim bay TỪ DƯỚI LÊN) ---
         let canvas, ctx, width, height;
         let particles = [];
         class Particle {
             constructor() { this.reset(); }
             reset() {
                 this.x = Math.random() * width;
-                this.y = -20;
+                this.y = height + 20; // Bắt đầu từ dưới đáy màn hình bay lên
                 this.size = Math.random() * 12 + 8;
-                this.speedY = Math.random() * 1.5 + 0.8;
+                this.speedY = -(Math.random() * 1.5 + 0.8); // Tốc độ âm để bay lên trên
                 this.speedX = Math.random() * 1.5 - 0.75;
                 this.rotation = Math.random() * 360;
                 this.rotationSpeed = (Math.random() - 0.5) * 2;
@@ -466,9 +466,9 @@
             }
             update() {
                 this.y += this.speedY;
-                this.x += Math.sin(this.y / 30) + this.speedX;
+                this.x += Math.sin(-this.y / 30) + this.speedX;
                 this.rotation += this.rotationSpeed;
-                if (this.y > height + 20) this.reset();
+                if (this.y < -20) this.reset(); // Khi bay lên quá đỉnh thì reset về đáy
             }
             draw() {
                 ctx.save();
@@ -514,9 +514,9 @@
                 height = canvas.height = window.innerHeight;
             });
             particles = [];
-            for (let i = 0; i < 40; i++) {
+            for (let i = 0; i < 45; i++) {
                 const p = new Particle();
-                p.y = Math.random() * height;
+                p.y = Math.random() * height; // Phân bổ ngẫu nhiên ban đầu khắp màn hình
                 particles.push(p);
             }
             animateParticles();
@@ -597,7 +597,7 @@
             }
         }
 
-        // --- 5. LƯU BÚT REALTIME & LOCALSTORAGE (DÙNG INDEX AN TOÀN 100%) ---
+        // --- 5. LƯU BÚT REALTIME & LOCALSTORAGE ---
         function addStudentWish(e) {
             e.preventDefault();
             const nameInput = document.getElementById('student-name');
